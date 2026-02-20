@@ -52,8 +52,11 @@ export default function CartDrawer() {
                   key={item.id}
                   className="flex gap-4 bg-brand-gray rounded-xl p-4"
                 >
-                  {/* Image placeholder */}
-                  <div className="w-20 h-20 rounded-lg bg-gray-100 flex items-center justify-center text-3xl shrink-0">
+                  <div
+                    className="w-20 h-20 rounded-lg bg-gray-100 flex items-center justify-center text-3xl shrink-0"
+                    role="img"
+                    aria-label={`Foto da ${item.name}`}
+                  >
                     ☕
                   </div>
 

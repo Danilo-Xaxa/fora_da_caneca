@@ -8,6 +8,7 @@ const Produto = lazy(() => import("./pages/Produto"))
 const Carrinho = lazy(() => import("./pages/Carrinho"))
 const SobreNos = lazy(() => import("./pages/SobreNos"))
 const Contato = lazy(() => import("./pages/Contato"))
+const NaoEncontrada = lazy(() => import("./pages/NaoEncontrada"))
 
 function PageLoader() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="/carrinho" element={<Carrinho />} />
             <Route path="/sobre" element={<SobreNos />} />
             <Route path="/contato" element={<Contato />} />
+            <Route path="*" element={<NaoEncontrada />} />
           </Route>
         </Routes>
       </Suspense>

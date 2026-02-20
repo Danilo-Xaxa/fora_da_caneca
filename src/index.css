@@ -47,3 +47,34 @@ body {
   color: #3d3d3d;
   min-width: 320px;
 }
+
+/* Focus visible for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-pink);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip navigation link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip-link:focus {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  padding: 1rem 2rem;
+  background: var(--color-brand-pink);
+  color: white;
+  font-weight: 600;
+  z-index: 9999;
+  text-decoration: none;
+}

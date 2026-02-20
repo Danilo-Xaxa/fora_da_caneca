@@ -15,6 +15,7 @@ import { CATEGORIES } from "../constants/categories"
 import { PRODUCTS } from "../constants/products"
 import { SITE_CONFIG } from "../constants/siteConfig"
 import { openWhatsAppGeneral } from "../utils/whatsapp"
+import SEO from "../components/ui/SEO"
 
 const FEATURED = PRODUCTS.filter((p) => p.featured)
 
@@ -39,6 +40,12 @@ const STEPS = [
 export default function Home() {
   return (
     <>
+      <SEO
+        title="Canecas Personalizadas"
+        description="Canecas personalizadas com frases criativas, humor e muito estilo. De Bananeiras/PB para todo o Brasil. Escolha a sua ou crie do seu jeito!"
+        path="/"
+      />
+
       {/* Hero */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         {/* Background */}

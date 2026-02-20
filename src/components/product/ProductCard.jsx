@@ -1,11 +1,13 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
-import { ShoppingCart, Eye } from "lucide-react"
+import { ShoppingCart, Eye, Check } from "lucide-react"
 import { useCartStore } from "../../stores/cartStore"
 import { formatPrice } from "../../utils/formatPrice"
 import Badge from "../ui/Badge"
 
 export default function ProductCard({ product }) {
   const addItem = useCartStore((s) => s.addItem)
+  const [added, setAdded] = useState(false)
 
   const discount = product.originalPrice
     ? Math.round(
@@ -17,7 +19,11 @@ export default function ProductCard({ product }) {
     <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-brand-pink/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/10">
       {/* Image */}
       <Link to={`/produto/${product.slug}`} className="block relative overflow-hidden">
-        <div className="aspect-square bg-brand-gray flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">
+        <div
+          className="aspect-square bg-brand-gray flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500"
+          role="img"
+          aria-label={`Foto da ${product.name}`}
+        >
           ☕
         </div>
 
@@ -60,11 +66,19 @@ export default function ProductCard({ product }) {
           </div>
 
           <button
-            onClick={() => addItem(product)}
-            className="p-3 rounded-xl bg-gradient-to-r from-brand-pink to-brand-orange text-white hover:shadow-lg hover:shadow-brand-pink/30 hover:scale-110 transition-all cursor-pointer"
+            onClick={() => {
+              addItem(product)
+              setAdded(true)
+              setTimeout(() => setAdded(false), 1500)
+            }}
+            className={`p-3 rounded-xl text-white transition-all cursor-pointer ${
+              added
+                ? "bg-green-500 scale-110"
+                : "bg-gradient-to-r from-brand-pink to-brand-orange hover:shadow-lg hover:shadow-brand-pink/30 hover:scale-110"
+            }`}
             aria-label={`Adicionar ${product.name} ao carrinho`}
           >
-            <ShoppingCart size={18} />
+            {added ? <Check size={18} /> : <ShoppingCart size={18} />}
           </button>
         </div>
       </div>

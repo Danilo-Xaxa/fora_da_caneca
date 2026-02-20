@@ -13,6 +13,7 @@ import Button from "../components/ui/Button"
 import WhatsAppIcon from "../components/ui/WhatsAppIcon"
 import { SITE_CONFIG } from "../constants/siteConfig"
 import { openWhatsAppGeneral } from "../utils/whatsapp"
+import SEO from "../components/ui/SEO"
 
 const CONTACT_METHODS = [
   {
@@ -72,6 +73,11 @@ export default function Contato() {
 
   return (
     <section className="py-12 md:py-20">
+      <SEO
+        title="Contato"
+        description="Entre em contato com a Fora da Caneca pelo WhatsApp ou Instagram. Atendimento rapido e personalizado."
+        path="/contato"
+      />
       <Container>
         <SectionTitle
           title="Fale Conosco"

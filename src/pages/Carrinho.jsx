@@ -12,6 +12,7 @@ import WhatsAppIcon from "../components/ui/WhatsAppIcon"
 import { useCartStore } from "../stores/cartStore"
 import { formatPrice } from "../utils/formatPrice"
 import { openWhatsAppOrder } from "../utils/whatsapp"
+import SEO from "../components/ui/SEO"
 
 export default function Carrinho() {
   const { items, updateQuantity, removeItem, clearCart, getTotal } =
@@ -20,6 +21,11 @@ export default function Carrinho() {
 
   return (
     <section className="py-12 md:py-20">
+      <SEO
+        title="Carrinho"
+        description="Revise seus itens e finalize seu pedido pelo WhatsApp."
+        path="/carrinho"
+      />
       <Container>
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold mb-2 text-gray-800">
@@ -59,7 +65,11 @@ export default function Carrinho() {
                     key={item.id}
                     className="flex gap-4 p-4 md:p-6 bg-brand-gray rounded-2xl border border-gray-200"
                   >
-                    <div className="w-24 h-24 md:w-28 md:h-28 rounded-xl bg-gray-100 flex items-center justify-center text-5xl shrink-0">
+                    <div
+                      className="w-24 h-24 md:w-28 md:h-28 rounded-xl bg-gray-100 flex items-center justify-center text-5xl shrink-0"
+                      role="img"
+                      aria-label={`Foto da ${item.name}`}
+                    >
                       ☕
                     </div>
 

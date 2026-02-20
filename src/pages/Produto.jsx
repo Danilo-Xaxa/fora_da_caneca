@@ -7,6 +7,7 @@ import {
   Package,
   Truck,
   Shield,
+  Check,
 } from "lucide-react"
 import { useState } from "react"
 import Container from "../components/ui/Container"
@@ -18,6 +19,7 @@ import { PRODUCTS } from "../constants/products"
 import { useCartStore } from "../stores/cartStore"
 import { formatPrice } from "../utils/formatPrice"
 import { openWhatsAppProduct } from "../utils/whatsapp"
+import SEO from "../components/ui/SEO"
 
 const BENEFITS = [
   { icon: Package, text: "Ceramica de alta qualidade (325ml)" },
@@ -28,6 +30,7 @@ const BENEFITS = [
 export default function Produto() {
   const { slug } = useParams()
   const [quantity, setQuantity] = useState(1)
+  const [addedToCart, setAddedToCart] = useState(false)
   const addItem = useCartStore((s) => s.addItem)
 
   const product = PRODUCTS.find((p) => p.slug === slug)
@@ -41,14 +44,37 @@ export default function Produto() {
   ).slice(0, 4)
 
   const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addItem({
+    addItem(
+      {
         id: product.id,
         name: product.name,
         price: product.price,
         image: product.images[0],
-      })
-    }
+      },
+      quantity
+    )
+    setAddedToCart(true)
+    setTimeout(() => setAddedToCart(false), 2000)
+  }
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: product.images[0],
+    offers: {
+      "@type": "Offer",
+      price: product.price,
+      priceCurrency: "BRL",
+      availability: "https://schema.org/InStock",
+      seller: {
+        "@type": "Organization",
+        name: "Fora da Caneca",
+      },
+    },
+    material: product.material,
+    category: product.category,
   }
 
   const discount = product.originalPrice
@@ -59,6 +85,13 @@ export default function Produto() {
 
   return (
     <section className="py-8 md:py-16">
+      <SEO
+        title={product.name}
+        description={`${product.phrase} - ${product.description}`}
+        path={`/produto/${product.slug}`}
+        type="product"
+        jsonLd={productJsonLd}
+      />
       <Container>
         {/* Breadcrumb */}
         <Link
@@ -72,7 +105,11 @@ export default function Produto() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
           {/* Image */}
           <div className="relative rounded-2xl overflow-hidden bg-brand-gray border border-gray-200">
-            <div className="aspect-square flex items-center justify-center text-9xl bg-gradient-to-br from-gray-50 to-gray-100">
+            <div
+              className="aspect-square flex items-center justify-center text-9xl bg-gradient-to-br from-gray-50 to-gray-100"
+              role="img"
+              aria-label={`Foto da ${product.name} - ${product.phrase}`}
+            >
               ☕
             </div>
             <div className="absolute top-4 left-4 flex flex-col gap-2">
@@ -161,11 +198,21 @@ export default function Produto() {
 
               <Button
                 size="lg"
-                className="flex-1"
+                className={`flex-1 transition-all ${addedToCart ? "!bg-green-500 !from-green-500 !to-green-600" : ""}`}
                 onClick={handleAddToCart}
+                disabled={addedToCart}
               >
-                <ShoppingCart size={20} />
-                Adicionar ao Carrinho
+                {addedToCart ? (
+                  <>
+                    <Check size={20} />
+                    Adicionado!
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart size={20} />
+                    Adicionar ao Carrinho
+                  </>
+                )}
               </Button>
             </div>
 

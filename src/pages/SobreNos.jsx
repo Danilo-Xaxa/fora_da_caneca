@@ -5,6 +5,7 @@ import Button from "../components/ui/Button"
 import WhatsAppIcon from "../components/ui/WhatsAppIcon"
 import { openWhatsAppGeneral } from "../utils/whatsapp"
 import { SITE_CONFIG } from "../constants/siteConfig"
+import SEO from "../components/ui/SEO"
 
 const VALUES = [
   {
@@ -48,6 +49,12 @@ const VALUES = [
 export default function SobreNos() {
   return (
     <>
+      <SEO
+        title="Sobre Nos"
+        description="Conheca a Fora da Caneca. De Bananeiras/PB, transformamos momentos simples em sorrisos com canecas criativas e personalizadas."
+        path="/sobre"
+      />
+
       {/* Hero */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-pink/10 rounded-full blur-3xl" />
