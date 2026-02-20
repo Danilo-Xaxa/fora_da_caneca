@@ -32,7 +32,7 @@ export const PRODUCTS = [
     id: 3,
     name: "Te Amo Pra Sempre",
     slug: "te-amo-pra-sempre",
-    phrase: "Te amo pra sempre com voce.",
+    phrase: "Te amo pra sempre com você.",
     description: "Caneca romântica com corações e rosas. Presente perfeito para o dia dos namorados ou qualquer dia especial.",
     price: 44.90,
     category: "romanticas",

@@ -10,8 +10,8 @@ import SEO from "../components/ui/SEO"
 
 const SORT_OPTIONS = [
   { value: "featured", label: "Destaques" },
-  { value: "price-asc", label: "Menor preco" },
-  { value: "price-desc", label: "Maior preco" },
+  { value: "price-asc", label: "Menor preço" },
+  { value: "price-desc", label: "Maior preço" },
   { value: "name", label: "A - Z" },
 ]
 
@@ -83,13 +83,13 @@ export default function Catalogo() {
   return (
     <section className="py-12 md:py-20">
       <SEO
-        title="Catalogo"
-        description="Navegue pelo catalogo completo de canecas personalizadas da Fora da Caneca. Humor, cafe, romanticas, musica e personalizadas."
+        title="Catálogo"
+        description="Navegue pelo catálogo completo de canecas personalizadas da Fora da Caneca. Humor, café, românticas, música e personalizadas."
         path="/catalogo"
       />
       <Container>
         <SectionTitle
-          title="Catalogo"
+          title="Catálogo"
           subtitle={`${filteredProducts.length} caneca${filteredProducts.length !== 1 ? "s" : ""} encontrada${filteredProducts.length !== 1 ? "s" : ""}`}
         />
 
@@ -100,7 +100,7 @@ export default function Catalogo() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar canecas por nome, frase ou descricao..."
+            placeholder="Buscar canecas por nome, frase ou descrição..."
             className="w-full pl-11 pr-10 py-3 bg-brand-gray border border-gray-200 rounded-xl text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-brand-pink transition-colors"
             aria-label="Buscar canecas"
           />

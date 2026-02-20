@@ -12,7 +12,7 @@ const VALUES = [
     icon: Sparkles,
     title: "Criatividade",
     description:
-      "Cada caneca é uma obra única, com frases e designs que voce não encontra em lugar nenhum.",
+      "Cada caneca é uma obra única, com frases e designs que você não encontra em lugar nenhum.",
   },
   {
     icon: Heart,
@@ -22,7 +22,7 @@ const VALUES = [
   },
   {
     icon: Coffee,
-    title: "Paixao por Café",
+    title: "Paixão por Café",
     description:
       "Café é a nossa inspiração. Acreditamos que cada xícara merece uma caneca a altura.",
   },
@@ -50,8 +50,8 @@ export default function SobreNos() {
   return (
     <>
       <SEO
-        title="Sobre Nos"
-        description="Conheca a Fora da Caneca. De Bananeiras/PB, transformamos momentos simples em sorrisos com canecas criativas e personalizadas."
+        title="Sobre Nós"
+        description="Conheça a Fora da Caneca. De Bananeiras (PB), transformamos momentos simples em sorrisos com canecas criativas e personalizadas."
         path="/sobre"
       />
 
@@ -95,12 +95,12 @@ export default function SobreNos() {
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
                   Tudo começou com uma caneca personalizada pra um amigo. A
-                  reação foi tão boa que pensamos: &ldquo;por que nao levar essa
+                  reação foi tão boa que pensamos: &ldquo;por que não levar essa
                   alegria pra mais gente?&rdquo;
                 </p>
                 <p>
                   Desde então, já criamos centenas de canecas com frases que vão
-                  do humor ao romantico, da música ao cafe. Cada peça é feita com
+                  do humor ao romantico, da música ao café. Cada peça é feita com
                   carinho, pensando em quem vai receber.
                 </p>
                 <p>

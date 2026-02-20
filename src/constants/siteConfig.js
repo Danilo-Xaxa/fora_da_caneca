@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
     url: "https://www.instagram.com/foradacaneca/",
     handle: "@foradacaneca",
   },
-  location: "Bananeiras/PB",
+  location: "Bananeiras (PB)",
 }
 
 export const WHATSAPP_MESSAGES = {

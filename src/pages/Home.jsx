@@ -59,7 +59,7 @@ export default function Home() {
               ☕ Canecas que falam por você
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight mb-6 text-gray-800">
-              Sua caneca,{" "}
+              Sua caneca, <br />
               <span className="bg-gradient-to-r from-brand-pink to-brand-orange bg-clip-text text-transparent">
                 do seu jeito
               </span>
