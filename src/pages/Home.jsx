@@ -66,8 +66,8 @@ export default function Home() {
             </h1>
             <p className="text-lg md:text-xl text-gray-500 mb-8 max-w-xl">
               Canecas personalizadas com frases engraçadas, românticas e
-              criativas. O presente perfeito pra quem você ama (ou pra você
-              mesmo!).
+              criativas. O presente perfeito pra quem você ama, ou pra você
+              mesmo!
             </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/catalogo">
