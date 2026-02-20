@@ -43,7 +43,7 @@ export default function CartDrawer() {
             <div className="flex flex-col items-center justify-center h-full text-gray-300">
               <ShoppingBag size={64} className="mb-4" />
               <p className="text-lg font-medium">Carrinho vazio</p>
-              <p className="text-sm mt-1">Adicione canecas incriveis!</p>
+              <p className="text-sm mt-1">Adicione canecas incríveis!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
