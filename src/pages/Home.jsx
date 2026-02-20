@@ -42,7 +42,7 @@ export default function Home() {
     <>
       <SEO
         title="Canecas Personalizadas"
-        description="Canecas personalizadas com frases criativas, humor e muito estilo. De Bananeiras/PB para todo o Brasil. Escolha a sua ou crie do seu jeito!"
+        description="Canecas personalizadas com frases criativas, humor e muito estilo. De Bananeiras (PB) para todo o Brasil. Escolha a sua ou crie do seu jeito!"
         path="/"
       />
 
@@ -56,7 +56,7 @@ export default function Home() {
         <Container className="relative z-10">
           <div className="max-w-3xl">
             <span className="inline-block px-4 py-2 bg-brand-pink/10 backdrop-blur-sm rounded-full text-sm text-gray-600 mb-6 border border-brand-pink/20">
-              ☕ Canecas que falam por voce
+              ☕ Canecas que falam por você
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight mb-6 text-gray-800">
               Sua caneca,{" "}
@@ -65,8 +65,8 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-gray-500 mb-8 max-w-xl">
-              Canecas personalizadas com frases engracadas, romanticas e
-              criativas. O presente perfeito pra quem voce ama (ou pra voce
+              Canecas personalizadas com frases engraçadas, românticas e
+              criativas. O presente perfeito pra quem você ama (ou pra você
               mesmo!).
             </p>
             <div className="flex flex-wrap gap-4">
@@ -90,7 +90,7 @@ export default function Home() {
         <Container>
           <SectionTitle
             title="Categorias"
-            subtitle="Encontre a caneca perfeita pra cada ocasiao"
+            subtitle="Encontre a caneca perfeita pra cada ocasião"
           />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {CATEGORIES.map((cat) => {
@@ -183,7 +183,7 @@ export default function Home() {
             </h2>
             <p className="text-gray-500 text-lg mb-8">
               Fale com a gente pelo WhatsApp! Criamos canecas personalizadas com
-              a frase, tema ou foto que voce quiser.
+              a frase, tema ou foto que você quiser.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button

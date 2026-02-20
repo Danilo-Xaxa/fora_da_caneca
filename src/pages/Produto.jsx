@@ -160,7 +160,7 @@ export default function Produto() {
               <div className="flex items-center gap-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-xl mb-6">
                 <Flame size={16} className="text-amber-500 shrink-0" />
                 <span className="text-amber-700 text-sm font-medium">
-                  Ultimas unidades! Este produto esta entre os mais vendidos.
+                  Últimas unidades! Este produto está entre os mais vendidos.
                 </span>
               </div>
             )}
@@ -258,7 +258,7 @@ export default function Produto() {
         {/* Related Products */}
         {related.length > 0 && (
           <div className="mt-20">
-            <h2 className="text-2xl font-bold mb-8 text-gray-800">Voce tambem pode gostar</h2>
+            <h2 className="text-2xl font-bold mb-8 text-gray-800">Você também pode gostar</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {related.map((p) => (
                 <ProductCard key={p.id} product={p} />

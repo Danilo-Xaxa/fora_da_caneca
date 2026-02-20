@@ -178,7 +178,7 @@ export default function Carrinho() {
                   </Button>
 
                   <p className="text-gray-400 text-xs text-center mt-4">
-                    Voce sera redirecionado para o WhatsApp com seu pedido
+                    Você será redirecionado para o WhatsApp com seu pedido
                     formatado automaticamente
                   </p>
                 </div>

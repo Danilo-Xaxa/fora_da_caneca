@@ -19,7 +19,7 @@ const CONTACT_METHODS = [
   {
     icon: MessageCircle,
     title: "WhatsApp",
-    description: "Nosso principal canal. Resposta rapida!",
+    description: "Nosso principal canal. Resposta rápida!",
     value: SITE_CONFIG.whatsapp.display,
     action: openWhatsAppGeneral,
     actionLabel: "Chamar no WhatsApp",
@@ -28,7 +28,7 @@ const CONTACT_METHODS = [
   {
     icon: Instagram,
     title: "Instagram",
-    description: "Siga pra ver novidades e lancamentos",
+    description: "Siga pra ver novidades e lançamentos",
     value: SITE_CONFIG.instagram.handle,
     href: SITE_CONFIG.instagram.url,
     actionLabel: "Seguir no Instagram",
@@ -36,7 +36,7 @@ const CONTACT_METHODS = [
   },
   {
     icon: MapPin,
-    title: "Localizacao",
+    title: "Localização",
     description: "Feito com carinho no Nordeste",
     value: SITE_CONFIG.location,
     actionLabel: null,
@@ -44,8 +44,8 @@ const CONTACT_METHODS = [
   },
   {
     icon: Clock,
-    title: "Horario",
-    description: "Segunda a Sabado",
+    title: "Horário",
+    description: "Segunda a Sábado",
     value: "9h as 18h",
     actionLabel: null,
     color: "from-blue-400 to-cyan-500",
@@ -75,7 +75,7 @@ export default function Contato() {
     <section className="py-12 md:py-20">
       <SEO
         title="Contato"
-        description="Entre em contato com a Fora da Caneca pelo WhatsApp ou Instagram. Atendimento rapido e personalizado."
+        description="Entre em contato com a Fora da Caneca pelo WhatsApp ou Instagram. Atendimento rápido e personalizado."
         path="/contato"
       />
       <Container>
@@ -136,7 +136,7 @@ export default function Contato() {
           <div className="p-8 rounded-2xl bg-brand-gray border border-gray-200">
             <h3 className="text-xl font-bold mb-2 text-gray-800">Envie uma mensagem</h3>
             <p className="text-gray-500 text-sm mb-6">
-              Preencha o formulario e entraremos em contato em breve.
+              Preencha o formulário e entraremos em contato em breve.
             </p>
 
             {submitted ? (
@@ -175,7 +175,7 @@ export default function Contato() {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-600 mb-1"
                   >
-                    Email
+                    E-mail
                   </label>
                   <input
                     id="email"

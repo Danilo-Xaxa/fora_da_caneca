@@ -2,7 +2,7 @@
 
 E-commerce de canecas personalizadas com frases criativas e humoristicas.
 
-Produtos personalizados do seu jeito — de Bananeiras/PB para todo o Brasil.
+Produtos personalizados do seu jeito — de Bananeiras (PB) para todo o Brasil.
 
 [![Instagram](https://img.shields.io/badge/@foradacaneca-E4405F?style=flat&logo=instagram&logoColor=white)](https://www.instagram.com/foradacaneca/)
 [![WhatsApp](https://img.shields.io/badge/(81)%2099336--7273-25D366?style=flat&logo=whatsapp&logoColor=white)](https://wa.me/5581993367273)
@@ -11,13 +11,13 @@ Produtos personalizados do seu jeito — de Bananeiras/PB para todo o Brasil.
 
 ## Sobre
 
-Fora da Caneca transforma momentos simples em sorrisos com canecas que vao do humor acido ao romantico, passando por cafe e rock'n'roll.
+Fora da Caneca transforma momentos simples em sorrisos com canecas que vao do humor acido ao romantico, passando por café e rock'n'roll.
 
-O site funciona como catalogo digital com carrinho de compras. O cliente monta seu pedido e finaliza diretamente pelo WhatsApp.
+O site funciona como catálogo digital com carrinho de compras. O cliente monta seu pedido e finaliza diretamente pelo WhatsApp.
 
 ## Funcionalidades
 
-- **Catalogo** com filtro por 5 categorias (Humor, Cafe, Romanticas, Musica, Personalizadas)
+- **Catalogo** com filtro por 5 categorias (Humor, Café, Românticas, Música, Personalizadas)
 - **Busca por texto** com normalizacao de acentos
 - **Ordenacao** por destaques, preco e ordem alfabetica
 - **Carrinho de compras** persistido no localStorage (Zustand)
@@ -32,7 +32,7 @@ O site funciona como catalogo digital com carrinho de compras. O cliente monta s
 - **Design responsivo** mobile-first
 - **ErrorBoundary** global com pagina de erro amigavel
 - **Pagina 404** customizada
-- **Skeleton loading** no catalogo durante carregamento
+- **Skeleton loading** no catálogo durante carregamento
 - **Transicao suave** entre paginas (opacity CSS)
 
 ## Tech Stack
@@ -101,7 +101,7 @@ src/
 | `/carrinho` | Carrinho | Itens, resumo e finalizacao via WhatsApp |
 | `/sobre` | Sobre Nos | Historia da marca, valores e numeros |
 | `/contato` | Contato | Formulario, WhatsApp e Instagram |
-| `*` | 404 | Pagina nao encontrada |
+| `*` | 404 | Pagina não encontrada |
 
 ## Identidade Visual
 
@@ -110,7 +110,7 @@ A marca usa um gradiente rosa-laranja como assinatura:
 ```
 Rosa:       #E91E63   (primaria, CTAs)
 Laranja:    #FF9800   (gradiente, acentos)
-Marrom:     #5D4037   (textos, tematica cafe)
+Marrom:     #5D4037   (textos, tematica café)
 Escuro:     #1A1A2E   (fundo principal)
 Rosa claro: #FCE4EC   (hover, backgrounds)
 ```

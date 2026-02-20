@@ -16,7 +16,7 @@ export default function Footer() {
             <p className="text-gray-500 mb-4">{SITE_CONFIG.slogan}</p>
             <div className="flex items-center gap-2 text-gray-400">
               <Coffee size={16} />
-              <span className="text-sm">Feito com cafe e carinho em {SITE_CONFIG.location}</span>
+              <span className="text-sm">Feito com café e carinho em {SITE_CONFIG.location}</span>
             </div>
           </div>
 
