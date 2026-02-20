@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { lazy, Suspense } from "react"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Layout from "./components/layout/Layout"
 
-function App() {
-  const [count, setCount] = useState(0)
+const Home = lazy(() => import("./pages/Home"))
+const Catalogo = lazy(() => import("./pages/Catalogo"))
+const Produto = lazy(() => import("./pages/Produto"))
+const Carrinho = lazy(() => import("./pages/Carrinho"))
+const SobreNos = lazy(() => import("./pages/SobreNos"))
+const Contato = lazy(() => import("./pages/Contato"))
 
+function PageLoader() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-10 h-10 border-3 border-brand-pink border-t-transparent rounded-full animate-spin" />
+        <span className="text-white/40 text-sm">Carregando...</span>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
-export default App
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/catalogo" element={<Catalogo />} />
+            <Route path="/produto/:slug" element={<Produto />} />
+            <Route path="/carrinho" element={<Carrinho />} />
+            <Route path="/sobre" element={<SobreNos />} />
+            <Route path="/contato" element={<Contato />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  )
+}

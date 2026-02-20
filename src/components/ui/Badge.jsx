@@ -1,7 +1,7 @@
 const variants = {
   sale: "bg-brand-red text-white",
   new: "bg-gradient-to-r from-brand-pink to-brand-orange text-white",
-  bestSeller: "bg-yellow-500 text-black",
+  bestSeller: "bg-gradient-to-r from-brand-pink to-brand-orange text-white",
 }
 
 export default function Badge({ children, variant = "new", className = "" }) {
