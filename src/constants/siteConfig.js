@@ -20,14 +20,14 @@ export const WHATSAPP_MESSAGES = {
       .map((item) => `- ${item.name} (x${item.quantity})`)
       .join("\n")
     return encodeURIComponent(
-      `Ola! Vim pelo site Fora da Caneca e gostaria de fazer um pedido:\n\n${itemList}\n\nTotal: R$ ${total}\n\nAguardo retorno!`
+      `Olá! Vim pelo site Fora da Caneca e gostaria de fazer um pedido:\n\n${itemList}\n\nTotal: R$ ${total}\n\nAguardo retorno!`
     )
   },
   product: (productName) =>
     encodeURIComponent(
-      `Ola! Vim pelo site Fora da Caneca e tenho interesse na caneca "${productName}". Pode me dar mais detalhes?`
+      `Olá! Vim pelo site Fora da Caneca e tenho interesse na caneca "${productName}". Pode me passar mais detalhes?`
     ),
   general: encodeURIComponent(
-    "Ola! Vim pelo site Fora da Caneca e gostaria de mais informacoes."
+    "Olá! Vim pelo site Fora da Caneca e gostaria de mais informações."
   ),
 }

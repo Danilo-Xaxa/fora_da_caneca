@@ -7,8 +7,8 @@ import Container from "../ui/Container"
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
-  { to: "/catalogo", label: "Catalogo" },
-  { to: "/sobre", label: "Sobre Nos" },
+  { to: "/catalogo", label: "Catálogo" },
+  { to: "/sobre", label: "Sobre Nós" },
   { to: "/contato", label: "Contato" },
 ]
 
