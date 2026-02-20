@@ -16,9 +16,9 @@ export const PRODUCTS = [
   },
   {
     id: 2,
-    name: "So Faço Café",
+    name: "Só Faço Café",
     slug: "so-faco-cafe",
-    phrase: "Ja fiz muita questão, hoje so faço café.",
+    phrase: "Ja fiz muita questão, hoje só faço café.",
     description: "Caneca branca em tons de marrom, com um personagem fofo. Para quem ja cansou de fazer questão e agora so quer um bom café.",
     price: 39.90,
     category: "cafe",
