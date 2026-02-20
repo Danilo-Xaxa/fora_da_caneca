@@ -5,7 +5,7 @@ export default function ProductGrid({ products }) {
     return (
       <div className="text-center py-16">
         <p className="text-6xl mb-4">😕</p>
-        <p className="text-white/60 text-lg">
+        <p className="text-gray-500 text-lg">
           Nenhuma caneca encontrada nessa categoria.
         </p>
       </div>

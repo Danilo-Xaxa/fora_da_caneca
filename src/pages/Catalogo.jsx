@@ -77,17 +77,16 @@ export default function Catalogo() {
           />
 
           <div className="flex items-center gap-2">
-            <SlidersHorizontal size={16} className="text-white/40" />
+            <SlidersHorizontal size={16} className="text-gray-400" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-white/10 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-pink appearance-none cursor-pointer"
+              className="bg-brand-gray border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:border-brand-pink appearance-none cursor-pointer"
             >
               {SORT_OPTIONS.map((opt) => (
                 <option
                   key={opt.value}
                   value={opt.value}
-                  className="bg-brand-dark"
                 >
                   {opt.label}
                 </option>

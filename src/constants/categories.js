@@ -10,8 +10,8 @@ export const CATEGORIES = [
   },
   {
     id: "cafe",
-    name: "Cafe Lovers",
-    description: "Para quem nao vive sem um cafezinho",
+    name: "Café Lovers",
+    description: "Para quem nao vive sem um cafézinho",
     icon: Coffee,
     color: "from-amber-700 to-yellow-600",
   },

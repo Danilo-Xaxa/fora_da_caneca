@@ -8,10 +8,10 @@
   --color-brand-darker: #12121F;
   --color-brand-red: #E53935;
   --color-brand-pink-light: #FCE4EC;
-  --color-brand-gray: #F5F5F5;
+  --color-brand-gray: #F7F5F3;
 
   --font-display: "Dancing Script", cursive;
-  --font-sans: "Poppins", sans-serif;
+  --font-sans: "Lora", serif;
 }
 
 ::-webkit-scrollbar {
@@ -19,11 +19,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-brand-darker);
+  background: #f5f5f5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-brand-brown);
+  background: #d4c5b9;
   border-radius: 4px;
 }
 
@@ -43,7 +43,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background-color: var(--color-brand-dark);
-  color: white;
+  background-color: #ffffff;
+  color: #3d3d3d;
   min-width: 320px;
 }

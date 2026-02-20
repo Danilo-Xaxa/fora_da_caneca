@@ -19,7 +19,7 @@ export default function Header() {
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-brand-darker/90 backdrop-blur-md border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200">
       <Container>
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
@@ -38,7 +38,7 @@ export default function Header() {
                 className={`text-sm font-medium transition-colors hover:text-brand-pink ${
                   location.pathname === link.to
                     ? "text-brand-pink"
-                    : "text-white/70"
+                    : "text-gray-500"
                 }`}
               >
                 {link.label}
@@ -52,7 +52,7 @@ export default function Header() {
               href={SITE_CONFIG.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex p-2 text-white/60 hover:text-brand-pink transition-colors"
+              className="hidden sm:flex p-2 text-gray-400 hover:text-brand-pink transition-colors"
               aria-label="Instagram"
             >
               <Instagram size={20} />
@@ -60,7 +60,7 @@ export default function Header() {
 
             <button
               onClick={openCart}
-              className="relative p-2 text-white/60 hover:text-brand-pink transition-colors cursor-pointer"
+              className="relative p-2 text-gray-400 hover:text-brand-pink transition-colors cursor-pointer"
               aria-label="Carrinho"
             >
               <ShoppingCart size={22} />
@@ -73,7 +73,7 @@ export default function Header() {
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 text-white/60 hover:text-white transition-colors cursor-pointer"
+              className="md:hidden p-2 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
               aria-label="Menu"
             >
               {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -84,7 +84,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-brand-darker/95 backdrop-blur-md border-t border-white/10">
+        <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-gray-200">
           <nav className="flex flex-col py-4">
             {NAV_LINKS.map((link) => (
               <Link
@@ -93,8 +93,8 @@ export default function Header() {
                 onClick={() => setMobileOpen(false)}
                 className={`px-6 py-3 text-base font-medium transition-colors ${
                   location.pathname === link.to
-                    ? "text-brand-pink bg-white/5"
-                    : "text-white/70 hover:text-white hover:bg-white/5"
+                    ? "text-brand-pink bg-brand-pink-light/50"
+                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
                 }`}
               >
                 {link.label}
@@ -104,7 +104,7 @@ export default function Header() {
               href={SITE_CONFIG.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 text-base font-medium text-white/70 hover:text-brand-pink flex items-center gap-2"
+              className="px-6 py-3 text-base font-medium text-gray-500 hover:text-brand-pink flex items-center gap-2"
             >
               <Instagram size={18} />
               {SITE_CONFIG.instagram.handle}

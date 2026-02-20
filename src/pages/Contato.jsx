@@ -10,6 +10,7 @@ import {
 import Container from "../components/ui/Container"
 import SectionTitle from "../components/ui/SectionTitle"
 import Button from "../components/ui/Button"
+import WhatsAppIcon from "../components/ui/WhatsAppIcon"
 import { SITE_CONFIG } from "../constants/siteConfig"
 import { openWhatsAppGeneral } from "../utils/whatsapp"
 
@@ -80,25 +81,25 @@ export default function Contato() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Contact methods */}
           <div>
-            <h3 className="text-xl font-bold mb-6">Nossos canais</h3>
+            <h3 className="text-xl font-bold mb-6 text-gray-800">Nossos canais</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {CONTACT_METHODS.map((method, i) => {
                 const Icon = method.icon
                 return (
                   <div
                     key={i}
-                    className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all"
+                    className="p-5 rounded-2xl bg-brand-gray border border-gray-200 hover:border-brand-pink/30 transition-all"
                   >
                     <div
                       className={`w-10 h-10 rounded-xl bg-gradient-to-br ${method.color} flex items-center justify-center mb-3`}
                     >
                       <Icon size={20} className="text-white" />
                     </div>
-                    <h4 className="font-semibold mb-1">{method.title}</h4>
-                    <p className="text-white/40 text-sm mb-2">
+                    <h4 className="font-semibold mb-1 text-gray-800">{method.title}</h4>
+                    <p className="text-gray-400 text-sm mb-2">
                       {method.description}
                     </p>
-                    <p className="text-white/80 font-medium text-sm">
+                    <p className="text-gray-700 font-medium text-sm">
                       {method.value}
                     </p>
                     {method.action && (
@@ -126,19 +127,19 @@ export default function Contato() {
           </div>
 
           {/* Contact form */}
-          <div className="p-8 rounded-2xl bg-white/5 border border-white/10">
-            <h3 className="text-xl font-bold mb-2">Envie uma mensagem</h3>
-            <p className="text-white/50 text-sm mb-6">
+          <div className="p-8 rounded-2xl bg-brand-gray border border-gray-200">
+            <h3 className="text-xl font-bold mb-2 text-gray-800">Envie uma mensagem</h3>
+            <p className="text-gray-500 text-sm mb-6">
               Preencha o formulario e entraremos em contato em breve.
             </p>
 
             {submitted ? (
               <div className="text-center py-12">
                 <span className="text-6xl block mb-4">✉️</span>
-                <h4 className="text-xl font-bold text-green-400 mb-2">
+                <h4 className="text-xl font-bold text-green-600 mb-2">
                   Mensagem enviada!
                 </h4>
-                <p className="text-white/60">
+                <p className="text-gray-500">
                   Obrigado pelo contato! Responderemos em breve.
                 </p>
               </div>
@@ -147,7 +148,7 @@ export default function Contato() {
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium text-white/70 mb-1"
+                    className="block text-sm font-medium text-gray-600 mb-1"
                   >
                     Nome
                   </label>
@@ -159,14 +160,14 @@ export default function Contato() {
                     value={form.name}
                     onChange={handleChange}
                     placeholder="Seu nome"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-brand-pink transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-brand-pink transition-colors"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-white/70 mb-1"
+                    className="block text-sm font-medium text-gray-600 mb-1"
                   >
                     Email
                   </label>
@@ -178,14 +179,14 @@ export default function Contato() {
                     value={form.email}
                     onChange={handleChange}
                     placeholder="seu@email.com"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-brand-pink transition-colors"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-brand-pink transition-colors"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="message"
-                    className="block text-sm font-medium text-white/70 mb-1"
+                    className="block text-sm font-medium text-gray-600 mb-1"
                   >
                     Mensagem
                   </label>
@@ -197,7 +198,7 @@ export default function Contato() {
                     value={form.message}
                     onChange={handleChange}
                     placeholder="Como podemos ajudar?"
-                    className="w-full px-4 py-3 bg-white/10 border border-white/10 rounded-xl text-white placeholder:text-white/30 focus:outline-none focus:border-brand-pink transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-brand-pink transition-colors resize-none"
                   />
                 </div>
 
@@ -212,7 +213,7 @@ export default function Contato() {
 
         {/* Map section CTA */}
         <div className="mt-16 text-center">
-          <p className="text-white/40 text-sm">
+          <p className="text-gray-400 text-sm">
             Prefere falar diretamente? Chame no WhatsApp que respondemos
             rapidinho! ⚡
           </p>
@@ -222,7 +223,7 @@ export default function Contato() {
             className="mt-4"
             onClick={openWhatsAppGeneral}
           >
-            <Phone size={18} />
+            <WhatsAppIcon size={18} />
             {SITE_CONFIG.whatsapp.display}
           </Button>
         </div>

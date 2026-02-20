@@ -4,12 +4,12 @@ import {
   Package,
   Palette,
   Truck,
-  MessageCircle,
   Instagram,
 } from "lucide-react"
 import Container from "../components/ui/Container"
 import SectionTitle from "../components/ui/SectionTitle"
 import Button from "../components/ui/Button"
+import WhatsAppIcon from "../components/ui/WhatsAppIcon"
 import ProductCard from "../components/product/ProductCard"
 import { CATEGORIES } from "../constants/categories"
 import { PRODUCTS } from "../constants/products"
@@ -22,17 +22,17 @@ const STEPS = [
   {
     icon: Package,
     title: "Escolha",
-    description: "Navegue pelo catalogo e escolha a caneca perfeita",
+    description: "Navegue pelo catálogo e escolha a caneca perfeita",
   },
   {
     icon: Palette,
     title: "Personalize",
-    description: "Quer algo unico? Crie com sua frase e estilo",
+    description: "Quer algo único? Crie com sua frase e estilo",
   },
   {
     icon: Truck,
     title: "Receba",
-    description: "Enviamos pra todo Brasil com carinho",
+    description: "Enviamos para todo o Brasil com carinho",
   },
 ]
 
@@ -41,23 +41,23 @@ export default function Home() {
     <>
       {/* Hero */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand-darker to-brand-dark" />
-        <div className="absolute top-1/4 -right-32 w-96 h-96 bg-brand-pink/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl" />
+        {/* Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-gray via-white to-brand-gray" />
+        <div className="absolute top-1/4 -right-32 w-96 h-96 bg-brand-pink/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl" />
 
         <Container className="relative z-10">
           <div className="max-w-3xl">
-            <span className="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm text-white/80 mb-6 border border-white/10">
+            <span className="inline-block px-4 py-2 bg-brand-pink/10 backdrop-blur-sm rounded-full text-sm text-gray-600 mb-6 border border-brand-pink/20">
               ☕ Canecas que falam por voce
             </span>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight mb-6 text-gray-800">
               Sua caneca,{" "}
               <span className="bg-gradient-to-r from-brand-pink to-brand-orange bg-clip-text text-transparent">
                 do seu jeito
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-white/60 mb-8 max-w-xl">
+            <p className="text-lg md:text-xl text-gray-500 mb-8 max-w-xl">
               Canecas personalizadas com frases engracadas, romanticas e
               criativas. O presente perfeito pra quem voce ama (ou pra voce
               mesmo!).
@@ -65,12 +65,12 @@ export default function Home() {
             <div className="flex flex-wrap gap-4">
               <Link to="/catalogo">
                 <Button size="lg">
-                  Ver Catalogo
+                  Ver Catálogo
                   <ArrowRight size={20} />
                 </Button>
               </Link>
-              <Button variant="secondary" size="lg" onClick={openWhatsAppGeneral}>
-                <MessageCircle size={20} />
+              <Button variant="whatsapp" size="lg" onClick={openWhatsAppGeneral}>
+                <WhatsAppIcon size={20} />
                 Falar no WhatsApp
               </Button>
             </div>
@@ -92,15 +92,15 @@ export default function Home() {
                 <Link
                   key={cat.id}
                   to={`/catalogo?categoria=${cat.id}`}
-                  className="group relative overflow-hidden rounded-2xl p-6 bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-1 text-center"
+                  className="group relative overflow-hidden rounded-2xl p-6 bg-brand-gray border border-gray-200 hover:border-brand-pink/30 transition-all duration-300 hover:-translate-y-1 text-center"
                 >
                   <div
                     className={`w-14 h-14 mx-auto mb-3 rounded-xl bg-gradient-to-br ${cat.color} flex items-center justify-center group-hover:scale-110 transition-transform`}
                   >
                     <Icon size={28} className="text-white" />
                   </div>
-                  <h3 className="font-semibold text-sm">{cat.name}</h3>
-                  <p className="text-white/40 text-xs mt-1">
+                  <h3 className="font-semibold text-sm text-gray-800">{cat.name}</h3>
+                  <p className="text-gray-400 text-xs mt-1">
                     {cat.description}
                   </p>
                 </Link>
@@ -111,7 +111,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-20 bg-brand-darker/50">
+      <section className="py-20 bg-brand-gray">
         <Container>
           <SectionTitle
             title="Destaques"
@@ -125,7 +125,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link to="/catalogo">
               <Button variant="outline" size="lg">
-                Ver todo o catalogo
+                Ver todo o catálogo
                 <ArrowRight size={18} />
               </Button>
             </Link>
@@ -154,8 +154,8 @@ export default function Home() {
                   <span className="text-brand-pink font-bold text-sm">
                     Passo {i + 1}
                   </span>
-                  <h3 className="text-xl font-bold mt-1 mb-2">{step.title}</h3>
-                  <p className="text-white/60 text-sm">{step.description}</p>
+                  <h3 className="text-xl font-bold mt-1 mb-2 text-gray-800">{step.title}</h3>
+                  <p className="text-gray-500 text-sm">{step.description}</p>
                 </div>
               )
             })}
@@ -165,16 +165,16 @@ export default function Home() {
 
       {/* WhatsApp CTA */}
       <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-pink to-brand-orange opacity-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-pink to-brand-orange opacity-5" />
         <Container className="relative z-10">
           <div className="text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
               Quer uma caneca{" "}
               <span className="bg-gradient-to-r from-brand-pink to-brand-orange bg-clip-text text-transparent">
                 do seu jeito?
               </span>
             </h2>
-            <p className="text-white/60 text-lg mb-8">
+            <p className="text-gray-500 text-lg mb-8">
               Fale com a gente pelo WhatsApp! Criamos canecas personalizadas com
               a frase, tema ou foto que voce quiser.
             </p>
@@ -184,7 +184,7 @@ export default function Home() {
                 size="lg"
                 onClick={openWhatsAppGeneral}
               >
-                <MessageCircle size={22} />
+                <WhatsAppIcon size={22} />
                 Chamar no WhatsApp
               </Button>
               <a

@@ -14,10 +14,10 @@ export default function ProductCard({ product }) {
     : 0
 
   return (
-    <div className="group bg-white/5 rounded-2xl overflow-hidden border border-white/10 hover:border-brand-pink/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/10">
+    <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-brand-pink/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/10">
       {/* Image */}
       <Link to={`/produto/${product.slug}`} className="block relative overflow-hidden">
-        <div className="aspect-square bg-white/10 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">
+        <div className="aspect-square bg-brand-gray flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500">
           ☕
         </div>
 
@@ -28,7 +28,7 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* Hover overlay */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <span className="flex items-center gap-2 text-white font-medium bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
             <Eye size={18} />
             Ver detalhes
@@ -39,10 +39,10 @@ export default function ProductCard({ product }) {
       {/* Info */}
       <div className="p-4">
         <Link to={`/produto/${product.slug}`}>
-          <h3 className="font-semibold text-white group-hover:text-brand-pink transition-colors truncate">
+          <h3 className="font-semibold text-gray-800 group-hover:text-brand-pink transition-colors truncate">
             {product.name}
           </h3>
-          <p className="text-white/50 text-sm mt-1 line-clamp-2 h-10">
+          <p className="text-gray-400 text-sm mt-1 line-clamp-2 h-10">
             {product.phrase}
           </p>
         </Link>
@@ -50,7 +50,7 @@ export default function ProductCard({ product }) {
         <div className="flex items-center justify-between mt-4">
           <div>
             {product.originalPrice && (
-              <span className="text-white/40 text-xs line-through block">
+              <span className="text-gray-400 text-xs line-through block">
                 {formatPrice(product.originalPrice)}
               </span>
             )}

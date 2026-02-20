@@ -14,7 +14,7 @@ function PageLoader() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
         <div className="w-10 h-10 border-3 border-brand-pink border-t-transparent rounded-full animate-spin" />
-        <span className="text-white/40 text-sm">Carregando...</span>
+        <span className="text-gray-400 text-sm">Carregando...</span>
       </div>
     </div>
   )
