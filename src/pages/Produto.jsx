@@ -8,6 +8,7 @@ import {
   Truck,
   Shield,
   Check,
+  Flame,
 } from "lucide-react"
 import { useState } from "react"
 import Container from "../components/ui/Container"
@@ -153,6 +154,16 @@ export default function Produto() {
                 ou 3x de {formatPrice(product.price / 3)} sem juros
               </p>
             </div>
+
+            {/* Urgency */}
+            {product.bestSeller && (
+              <div className="flex items-center gap-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-xl mb-6">
+                <Flame size={16} className="text-amber-500 shrink-0" />
+                <span className="text-amber-700 text-sm font-medium">
+                  Ultimas unidades! Este produto esta entre os mais vendidos.
+                </span>
+              </div>
+            )}
 
             {/* Description */}
             <p className="text-gray-600 mb-6 leading-relaxed">

@@ -4,6 +4,7 @@ import { ShoppingCart, Menu, X, Instagram } from "lucide-react"
 import { useCartStore } from "../../stores/cartStore"
 import { SITE_CONFIG } from "../../constants/siteConfig"
 import Container from "../ui/Container"
+import PrefetchLink from "../ui/PrefetchLink"
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -32,7 +33,7 @@ export default function Header() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
-              <Link
+              <PrefetchLink
                 key={link.to}
                 to={link.to}
                 className={`text-sm font-medium transition-colors hover:text-brand-pink ${
@@ -42,7 +43,7 @@ export default function Header() {
                 }`}
               >
                 {link.label}
-              </Link>
+              </PrefetchLink>
             ))}
           </nav>
 

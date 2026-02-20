@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom"
 import { Instagram, Phone, MapPin, Coffee } from "lucide-react"
 import { SITE_CONFIG } from "../../constants/siteConfig"
 import Container from "../ui/Container"
+import PrefetchLink from "../ui/PrefetchLink"
 
 export default function Footer() {
   return (
@@ -24,18 +24,18 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4 text-gray-800">Navegacao</h4>
             <nav className="flex flex-col gap-2">
-              <Link to="/" className="text-gray-500 hover:text-brand-pink transition-colors">
+              <PrefetchLink to="/" className="text-gray-500 hover:text-brand-pink transition-colors">
                 Home
-              </Link>
-              <Link to="/catalogo" className="text-gray-500 hover:text-brand-pink transition-colors">
+              </PrefetchLink>
+              <PrefetchLink to="/catalogo" className="text-gray-500 hover:text-brand-pink transition-colors">
                 Catálogo
-              </Link>
-              <Link to="/sobre" className="text-gray-500 hover:text-brand-pink transition-colors">
+              </PrefetchLink>
+              <PrefetchLink to="/sobre" className="text-gray-500 hover:text-brand-pink transition-colors">
                 Sobre Nós
-              </Link>
-              <Link to="/contato" className="text-gray-500 hover:text-brand-pink transition-colors">
+              </PrefetchLink>
+              <PrefetchLink to="/contato" className="text-gray-500 hover:text-brand-pink transition-colors">
                 Contato
-              </Link>
+              </PrefetchLink>
             </nav>
           </div>
 

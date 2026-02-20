@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Layout from "./components/layout/Layout"
+import ErrorBoundary from "./components/ui/ErrorBoundary"
 
 const Home = lazy(() => import("./pages/Home"))
 const Catalogo = lazy(() => import("./pages/Catalogo"))
@@ -23,20 +24,22 @@ function PageLoader() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/catalogo" element={<Catalogo />} />
-            <Route path="/produto/:slug" element={<Produto />} />
-            <Route path="/carrinho" element={<Carrinho />} />
-            <Route path="/sobre" element={<SobreNos />} />
-            <Route path="/contato" element={<Contato />} />
-            <Route path="*" element={<NaoEncontrada />} />
-          </Route>
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/catalogo" element={<Catalogo />} />
+              <Route path="/produto/:slug" element={<Produto />} />
+              <Route path="/carrinho" element={<Carrinho />} />
+              <Route path="/sobre" element={<SobreNos />} />
+              <Route path="/contato" element={<Contato />} />
+              <Route path="*" element={<NaoEncontrada />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }
