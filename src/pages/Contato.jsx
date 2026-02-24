@@ -12,7 +12,7 @@ import SectionTitle from "../components/ui/SectionTitle"
 import Button from "../components/ui/Button"
 import WhatsAppIcon from "../components/ui/WhatsAppIcon"
 import { SITE_CONFIG } from "../constants/siteConfig"
-import { openWhatsAppGeneral } from "../utils/whatsapp"
+import { openWhatsAppGeneral, openWhatsAppContact } from "../utils/whatsapp"
 import SEO from "../components/ui/SEO"
 
 const CONTACT_METHODS = [
@@ -65,7 +65,7 @@ export default function Contato() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // TODO: integrate with Supabase or email service
+    openWhatsAppContact(form.name, form.email, form.message)
     setSubmitted(true)
     setForm(INITIAL_FORM)
     setTimeout(() => setSubmitted(false), 5000)
@@ -181,7 +181,6 @@ export default function Contato() {
                     id="email"
                     name="email"
                     type="email"
-                    required
                     value={form.email}
                     onChange={handleChange}
                     placeholder="seu@email.com"

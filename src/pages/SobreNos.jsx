@@ -34,7 +34,7 @@ const VALUES = [
   },
   {
     icon: Palette,
-    title: "Personalizacao",
+    title: "Personalização",
     description:
       "Você imagina, a gente cria. Canecas personalizadas do seu jeito, com sua frase e estilo.",
   },

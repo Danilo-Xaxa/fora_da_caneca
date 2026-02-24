@@ -16,3 +16,8 @@ export function openWhatsAppGeneral() {
     "_blank"
   )
 }
+
+export function openWhatsAppContact(name, email, message) {
+  const text = WHATSAPP_MESSAGES.contact(name, email, message)
+  window.open(`${SITE_CONFIG.whatsapp.baseUrl}?text=${text}`, "_blank")
+}

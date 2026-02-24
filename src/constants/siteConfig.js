@@ -30,4 +30,8 @@ export const WHATSAPP_MESSAGES = {
   general: encodeURIComponent(
     "Olá! Vim pelo site Fora da Caneca e gostaria de mais informações."
   ),
+  contact: (name, email, message) =>
+    encodeURIComponent(
+      `Olá! Vim pelo site Fora da Caneca.\n\nMeu nome é ${name}!\n\n${message}`
+    ),
 }
