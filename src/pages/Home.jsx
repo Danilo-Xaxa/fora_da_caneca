@@ -5,6 +5,9 @@ import {
   Palette,
   Truck,
   Instagram,
+  Star,
+  Heart,
+  Sparkles,
 } from "lucide-react"
 import Container from "../components/ui/Container"
 import SectionTitle from "../components/ui/SectionTitle"
@@ -19,19 +22,30 @@ import SEO from "../components/ui/SEO"
 
 const FEATURED = PRODUCTS.filter((p) => p.featured)
 
+const CATEGORY_EMOJIS = {
+  humor: "😂",
+  cafe: "☕",
+  romanticas: "💕",
+  musica: "🎵",
+  personalizadas: "🎨",
+}
+
 const STEPS = [
   {
     icon: Package,
+    emoji: "🛒",
     title: "Escolha",
     description: "Navegue pelo catálogo e escolha a caneca perfeita",
   },
   {
     icon: Palette,
+    emoji: "🎨",
     title: "Personalize",
     description: "Quer algo único? Crie com sua frase e estilo",
   },
   {
     icon: Truck,
+    emoji: "📦",
     title: "Receba",
     description: "Enviamos para todo o Brasil com carinho",
   },
@@ -50,26 +64,44 @@ export default function Home() {
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-brand-gray via-white to-brand-gray" />
-        <div className="absolute top-1/4 -right-32 w-96 h-96 bg-brand-pink/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-pink/8 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-orange/8 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 right-0 w-[300px] h-[300px] bg-brand-brown/5 rounded-full blur-3xl" />
+
+        {/* Floating Emojis */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <span className="absolute top-[15%] left-[8%] text-4xl animate-float opacity-60">☕</span>
+          <span className="absolute top-[25%] right-[10%] text-3xl animate-float-reverse opacity-50">🎨</span>
+          <span className="absolute bottom-[30%] left-[12%] text-3xl animate-float opacity-40">💕</span>
+          <span className="absolute bottom-[20%] right-[15%] text-4xl animate-float-reverse opacity-50">😂</span>
+          <span className="absolute top-[50%] right-[5%] text-2xl animate-bounce-gentle opacity-40">🎵</span>
+          <span className="absolute top-[10%] left-[45%] text-2xl animate-float opacity-30">✨</span>
+        </div>
 
         <Container className="relative z-10">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-2 bg-brand-pink/10 backdrop-blur-sm rounded-full text-sm text-gray-600 mb-6 border border-brand-pink/20">
-              ☕ Canecas que falam por você
-            </span>
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-black leading-tight mb-6 text-gray-800">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="animate-fade-in-up">
+              <span className="inline-flex items-center gap-2 px-5 py-2 bg-white/80 backdrop-blur-sm rounded-full text-sm text-gray-600 mb-8 border border-brand-pink/20 shadow-sm">
+                <Sparkles size={16} className="text-brand-orange" />
+                De Bananeiras (PB) para todo o Brasil
+              </span>
+            </div>
+
+            <h1 className="animate-fade-in-up delay-100 text-5xl sm:text-6xl md:text-7xl font-black leading-[1.1] mb-6 text-gray-800">
               Sua caneca, <br />
-              <span className="bg-gradient-to-r from-brand-pink to-brand-orange bg-clip-text text-transparent">
+              <span className="text-gradient font-display text-6xl sm:text-7xl md:text-8xl">
                 do seu jeito
               </span>
+              <span className="inline-block text-3xl animate-wiggle ml-2">✨</span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-500 mb-8 max-w-xl">
+
+            <p className="animate-fade-in-up delay-200 text-lg md:text-xl text-gray-500 mb-10 max-w-xl mx-auto leading-relaxed">
               Canecas personalizadas com frases engraçadas, românticas e
               criativas. O presente perfeito pra quem você ama, ou pra você
               mesmo!
             </p>
-            <div className="flex flex-wrap gap-4">
+
+            <div className="animate-fade-in-up delay-300 flex flex-wrap justify-center gap-4">
               <Link to="/catalogo">
                 <Button size="lg">
                   Ver Catálogo
@@ -81,35 +113,53 @@ export default function Home() {
                 Falar no WhatsApp
               </Button>
             </div>
+
+            {/* Trust Badges */}
+            <div className="animate-fade-in-up delay-500 flex flex-wrap justify-center gap-6 mt-12 text-sm text-gray-400">
+              <span className="flex items-center gap-1.5">
+                <Star size={14} className="text-brand-orange" /> 4.9 estrelas
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Truck size={14} className="text-green-500" /> Frete todo Brasil
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Heart size={14} className="text-brand-pink" /> Feito com amor
+              </span>
+            </div>
           </div>
         </Container>
       </section>
 
       {/* Categories */}
-      <section className="py-20">
-        <Container>
+      <section className="py-20 relative">
+        <div className="absolute inset-0 dots-pattern" />
+        <Container className="relative z-10">
           <SectionTitle
+            emoji="🎯"
             title="Categorias"
             subtitle="Encontre a caneca perfeita pra cada ocasião"
           />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {CATEGORIES.map((cat) => {
-              const Icon = cat.icon
+              const emoji = CATEGORY_EMOJIS[cat.id] || "☕"
               return (
                 <Link
                   key={cat.id}
                   to={`/catalogo?categoria=${cat.id}`}
-                  className="group relative overflow-hidden rounded-2xl p-6 bg-brand-gray border border-gray-200 hover:border-brand-pink/30 transition-all duration-300 hover:-translate-y-1 text-center"
+                  className="group relative overflow-hidden rounded-2xl p-6 bg-white border border-gray-100 hover:border-brand-pink/30 transition-all duration-300 text-center card-hover"
                 >
-                  <div
-                    className={`w-14 h-14 mx-auto mb-3 rounded-xl bg-gradient-to-br ${cat.color} flex items-center justify-center group-hover:scale-110 transition-transform`}
-                  >
-                    <Icon size={28} className="text-white" />
-                  </div>
-                  <h3 className="font-semibold text-sm text-gray-800">{cat.name}</h3>
-                  <p className="text-gray-400 text-xs mt-1">
+                  <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">
+                    {emoji}
+                  </span>
+                  <h3 className="font-semibold text-sm text-gray-800 group-hover:text-brand-pink transition-colors">
+                    {cat.name}
+                  </h3>
+                  <p className="text-gray-400 text-xs mt-1 leading-snug">
                     {cat.description}
                   </p>
+                  <div
+                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${cat.color} opacity-0 group-hover:opacity-100 transition-opacity`}
+                  />
                 </Link>
               )
             })}
@@ -121,6 +171,7 @@ export default function Home() {
       <section className="py-20 bg-brand-gray">
         <Container>
           <SectionTitle
+            emoji="🔥"
             title="Destaques"
             subtitle="As canecas mais queridas pelos nossos clientes"
           />
@@ -141,31 +192,35 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section className="py-20">
+      <section className="py-16 bg-white wave-top wave-bottom relative z-10">
         <Container>
           <SectionTitle
+            emoji="💡"
             title="Como Funciona"
             subtitle="Simples assim, em 3 passos"
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {STEPS.map((step, i) => {
-              const Icon = step.icon
-              return (
-                <div key={i} className="text-center relative">
-                  {i < STEPS.length - 1 && (
-                    <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-brand-pink/50 to-transparent" />
-                  )}
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-brand-pink to-brand-orange flex items-center justify-center">
-                    <Icon size={36} className="text-white" />
+            {STEPS.map((step, i) => (
+              <div key={i} className="relative text-center p-6 rounded-2xl bg-brand-gray border border-gray-100 group hover:border-brand-pink/20 transition-all">
+                {/* Step number badge */}
+                <span className="absolute -top-3 -right-2 w-8 h-8 rounded-full bg-gradient-to-r from-brand-pink to-brand-orange text-white text-sm font-bold flex items-center justify-center shadow-md">
+                  {i + 1}
+                </span>
+
+                <span className="text-4xl block mb-3 group-hover:animate-bounce-gentle">
+                  {step.emoji}
+                </span>
+                <h3 className="text-lg font-bold mb-2 text-gray-800">{step.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{step.description}</p>
+
+                {/* Arrow connector */}
+                {i < STEPS.length - 1 && (
+                  <div className="hidden md:block absolute top-1/2 -right-3 text-brand-pink/40">
+                    <ArrowRight size={20} />
                   </div>
-                  <span className="text-brand-pink font-bold text-sm">
-                    Passo {i + 1}
-                  </span>
-                  <h3 className="text-xl font-bold mt-1 mb-2 text-gray-800">{step.title}</h3>
-                  <p className="text-gray-500 text-sm">{step.description}</p>
-                </div>
-              )
-            })}
+                )}
+              </div>
+            ))}
           </div>
         </Container>
       </section>
@@ -175,9 +230,10 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-brand-pink to-brand-orange opacity-5" />
         <Container className="relative z-10">
           <div className="text-center max-w-2xl mx-auto">
+            <span className="text-4xl block mb-4 animate-bounce-gentle">☕</span>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
               Quer uma caneca{" "}
-              <span className="bg-gradient-to-r from-brand-pink to-brand-orange bg-clip-text text-transparent">
+              <span className="text-gradient">
                 do seu jeito?
               </span>
             </h2>

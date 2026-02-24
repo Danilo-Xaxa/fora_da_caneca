@@ -5,6 +5,14 @@ import { useCartStore } from "../../stores/cartStore"
 import { formatPrice } from "../../utils/formatPrice"
 import Badge from "../ui/Badge"
 
+const ACCENT_COLORS = [
+  "accent-pink",
+  "accent-orange",
+  "accent-brown",
+  "accent-red",
+  "accent-green",
+]
+
 export default function ProductCard({ product }) {
   const addItem = useCartStore((s) => s.addItem)
   const [added, setAdded] = useState(false)
@@ -15,16 +23,20 @@ export default function ProductCard({ product }) {
       )
     : 0
 
+  const accentClass = ACCENT_COLORS[product.id % ACCENT_COLORS.length]
+
   return (
-    <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-brand-pink/30 transition-all duration-300 hover:shadow-lg hover:shadow-brand-pink/10">
+    <div className={`group card-hover bg-white rounded-2xl overflow-hidden border border-gray-100 ${accentClass}`}>
       {/* Image */}
       <Link to={`/produto/${product.slug}`} className="block relative overflow-hidden">
         <div
-          className="aspect-square bg-brand-gray flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-500"
+          className="aspect-square bg-gradient-to-br from-brand-gray via-white to-brand-gray flex items-center justify-center text-6xl"
           role="img"
           aria-label={`Foto da ${product.name}`}
         >
-          ☕
+          <span className="group-hover:scale-125 transition-transform duration-500">
+            ☕
+          </span>
         </div>
 
         {/* Badges */}
@@ -53,14 +65,14 @@ export default function ProductCard({ product }) {
           </p>
         </Link>
 
-        <div className="flex items-center justify-between mt-4">
+        <div className="flex items-end justify-between mt-3 pt-3 border-t border-gray-100">
           <div>
             {product.originalPrice && (
               <span className="text-gray-400 text-xs line-through block">
                 {formatPrice(product.originalPrice)}
               </span>
             )}
-            <span className="text-lg font-bold bg-gradient-to-r from-brand-pink to-brand-orange bg-clip-text text-transparent">
+            <span className="text-xl font-bold text-gradient">
               {formatPrice(product.price)}
             </span>
           </div>
@@ -70,15 +82,20 @@ export default function ProductCard({ product }) {
               addItem(product)
               setAdded(true)
               setTimeout(() => setAdded(false), 1500)
+              window.dispatchEvent(
+                new CustomEvent("cart-toast", {
+                  detail: { name: product.name, quantity: 1 },
+                })
+              )
             }}
-            className={`p-3 rounded-xl text-white transition-all cursor-pointer ${
+            className={`p-2.5 rounded-full text-white transition-all duration-300 cursor-pointer ${
               added
                 ? "bg-green-500 scale-110"
                 : "bg-gradient-to-r from-brand-pink to-brand-orange hover:shadow-lg hover:shadow-brand-pink/30 hover:scale-110"
             }`}
             aria-label={`Adicionar ${product.name} ao carrinho`}
           >
-            {added ? <Check size={18} /> : <ShoppingCart size={18} />}
+            {added ? <Check size={16} /> : <ShoppingCart size={16} />}
           </button>
         </div>
       </div>

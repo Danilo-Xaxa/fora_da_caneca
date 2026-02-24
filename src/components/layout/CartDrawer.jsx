@@ -38,7 +38,7 @@ export default function CartDrawer() {
         </div>
 
         {/* Items */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto overscroll-contain p-6 cart-scroll-area">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-gray-300">
               <ShoppingBag size={64} className="mb-4" />
@@ -53,7 +53,7 @@ export default function CartDrawer() {
                   className="flex gap-4 bg-brand-gray rounded-xl p-4"
                 >
                   <div
-                    className="w-20 h-20 rounded-lg bg-gray-100 flex items-center justify-center text-3xl shrink-0"
+                    className="w-20 h-20 rounded-lg bg-gradient-to-br from-brand-gray via-white to-brand-gray flex items-center justify-center text-3xl shrink-0"
                     role="img"
                     aria-label={`Foto da ${item.name}`}
                   >
@@ -112,7 +112,7 @@ export default function CartDrawer() {
           <div className="p-6 border-t border-gray-200 space-y-4">
             <div className="flex justify-between items-center">
               <span className="text-gray-500">Total</span>
-              <span className="text-2xl font-bold bg-gradient-to-r from-brand-pink to-brand-orange bg-clip-text text-transparent">
+              <span className="text-2xl font-bold text-gradient">
                 {formatPrice(total)}
               </span>
             </div>

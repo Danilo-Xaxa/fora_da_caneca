@@ -4,6 +4,7 @@ import Header from "./Header"
 import Footer from "./Footer"
 import WhatsAppFloat from "./WhatsAppFloat"
 import CartDrawer from "./CartDrawer"
+import CartToast from "./CartToast"
 
 export default function Layout() {
   const { pathname } = useLocation()
@@ -24,13 +25,14 @@ export default function Layout() {
       <Header />
       <main
         id="main-content"
-        className={`flex-1 pt-16 md:pt-20 transition-opacity duration-300 ${isTransitioning ? "opacity-0" : "opacity-100"}`}
+        className={`flex-1 pt-24 md:pt-28 transition-opacity duration-300 ${isTransitioning ? "opacity-0" : "opacity-100"}`}
       >
         <Outlet />
       </main>
       <Footer />
       <WhatsAppFloat />
       <CartDrawer />
+      <CartToast />
     </div>
   )
 }
