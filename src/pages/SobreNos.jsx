@@ -1,4 +1,3 @@
-import { Heart, Coffee, Sparkles, Users, Star, Palette } from "lucide-react"
 import Container from "../components/ui/Container"
 import SectionTitle from "../components/ui/SectionTitle"
 import Button from "../components/ui/Button"
@@ -10,7 +9,6 @@ import SEO from "../components/ui/SEO"
 const VALUES = [
   {
     emoji: "✨",
-    icon: Sparkles,
     title: "Criatividade",
     description:
       "Cada caneca é uma obra única, com frases e designs que você não encontra em lugar nenhum.",
@@ -18,7 +16,6 @@ const VALUES = [
   },
   {
     emoji: "💕",
-    icon: Heart,
     title: "Carinho",
     description:
       "Fazemos cada peça com atenção e dedicação, porque sabemos que sua caneca vai carregar momentos especiais.",
@@ -26,7 +23,6 @@ const VALUES = [
   },
   {
     emoji: "☕",
-    icon: Coffee,
     title: "Paixão por Café",
     description:
       "Café é a nossa inspiração. Acreditamos que cada xícara merece uma caneca a altura.",
@@ -34,7 +30,6 @@ const VALUES = [
   },
   {
     emoji: "⭐",
-    icon: Star,
     title: "Qualidade",
     description:
       "Usamos materiais de primeira qualidade para garantir que sua caneca dure por muito tempo.",
@@ -42,7 +37,6 @@ const VALUES = [
   },
   {
     emoji: "🎨",
-    icon: Palette,
     title: "Personalização",
     description:
       "Você imagina, a gente cria. Canecas personalizadas do seu jeito, com sua frase e estilo.",
@@ -50,7 +44,6 @@ const VALUES = [
   },
   {
     emoji: "🤝",
-    icon: Users,
     title: "Proximidade",
     description:
       "Atendimento direto pelo WhatsApp, sem robôs. Somos gente de verdade que ama o que faz.",

@@ -24,8 +24,8 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
-  const { items, openCart } = useCartStore()
-  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
+  const { openCart, getTotalItems } = useCartStore()
+  const totalItems = getTotalItems()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -106,7 +106,7 @@ export default function Header() {
               >
                 <ShoppingCart size={22} />
                 {totalItems > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 flex items-center justify-center bg-gradient-to-r from-brand-pink to-brand-orange text-white text-xs font-bold rounded-full animate-bounce-gentle">
+                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 flex items-center justify-center bg-gradient-to-r from-brand-pink to-brand-orange text-white text-xs font-bold rounded-full">
                     {totalItems}
                   </span>
                 )}
@@ -146,6 +146,7 @@ export default function Header() {
               href={SITE_CONFIG.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => setMobileOpen(false)}
               className="px-6 py-3 text-base font-medium text-gray-500 hover:text-brand-pink flex items-center gap-2"
             >
               <Instagram size={18} />

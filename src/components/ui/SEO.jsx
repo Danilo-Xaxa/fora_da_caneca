@@ -1,7 +1,5 @@
 import { SITE_CONFIG } from "../../constants/siteConfig"
 
-const BASE_URL = "https://foradacaneca.com.br"
-
 export default function SEO({
   title,
   description,
@@ -9,18 +7,20 @@ export default function SEO({
   image = "/og-image.jpg",
   type = "website",
   jsonLd = null,
+  noindex = false,
 }) {
   const fullTitle = title
     ? `${title} | ${SITE_CONFIG.name}`
     : `${SITE_CONFIG.name} | Canecas Personalizadas`
   const fullDescription = description || SITE_CONFIG.description
-  const url = `${BASE_URL}${path}`
-  const imageUrl = image.startsWith("http") ? image : `${BASE_URL}${image}`
+  const url = `${SITE_CONFIG.baseUrl}${path}`
+  const imageUrl = image.startsWith("http") ? image : `${SITE_CONFIG.baseUrl}${image}`
 
   return (
     <>
       <title>{fullTitle}</title>
       <meta name="description" content={fullDescription} />
+      {noindex && <meta name="robots" content="noindex" />}
       <link rel="canonical" href={url} />
 
       {/* Open Graph */}

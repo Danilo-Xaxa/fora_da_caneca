@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react"
 import { useCartStore } from "../../stores/cartStore"
 import { formatPrice } from "../../utils/formatPrice"
@@ -9,6 +10,15 @@ export default function CartDrawer() {
   const { items, isOpen, closeCart, updateQuantity, removeItem, getTotal } =
     useCartStore()
   const total = getTotal()
+
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKey = (e) => {
+      if (e.key === "Escape") closeCart()
+    }
+    window.addEventListener("keydown", handleKey)
+    return () => window.removeEventListener("keydown", handleKey)
+  }, [isOpen, closeCart])
 
   if (!isOpen) return null
 

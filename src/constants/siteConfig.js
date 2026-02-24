@@ -2,6 +2,7 @@ export const SITE_CONFIG = {
   name: "Fora da Caneca",
   slogan: "Produtos personalizados do seu jeito",
   description: "Canecas personalizadas com frases criativas, humor e muito estilo. Envio para todo Brasil.",
+  baseUrl: "https://foradacaneca.com.br",
   whatsapp: {
     number: "5581993367273",
     display: "(81) 99336-7273",

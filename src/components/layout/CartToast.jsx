@@ -1,20 +1,24 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Check, X } from "lucide-react"
 import { useCartStore } from "../../stores/cartStore"
 
 export default function CartToast() {
   const [toast, setToast] = useState(null)
   const { openCart } = useCartStore()
+  const timerRef = useRef(null)
 
   useEffect(() => {
     const handleToast = (e) => {
+      if (timerRef.current) clearTimeout(timerRef.current)
       setToast(e.detail)
-      const timer = setTimeout(() => setToast(null), 3000)
-      return () => clearTimeout(timer)
+      timerRef.current = setTimeout(() => setToast(null), 3000)
     }
 
     window.addEventListener("cart-toast", handleToast)
-    return () => window.removeEventListener("cart-toast", handleToast)
+    return () => {
+      window.removeEventListener("cart-toast", handleToast)
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
   }, [])
 
   if (!toast) return null

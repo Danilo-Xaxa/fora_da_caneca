@@ -8,9 +8,10 @@ export default function NaoEncontrada() {
   return (
     <section className="py-20 md:py-32">
       <SEO
-        title="Pagina não encontrada"
-        description="A pagina que você procura não existe. Volte para a pagina inicial ou navegue pelo catálogo."
+        title="Página não encontrada"
+        description="A página que você procura não existe. Volte para a página inicial ou navegue pelo catálogo."
         path="/404"
+        noindex
       />
       <Container>
         <div className="text-center max-w-lg mx-auto">

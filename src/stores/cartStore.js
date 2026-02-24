@@ -46,17 +46,6 @@ export const useCartStore = create(
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
 
-      get totalItems() {
-        return get().items.reduce((sum, item) => sum + item.quantity, 0)
-      },
-
-      get totalPrice() {
-        return get().items.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0
-        )
-      },
-
       getTotal: () => {
         return get().items.reduce(
           (sum, item) => sum + item.price * item.quantity,
