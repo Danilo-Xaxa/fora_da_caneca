@@ -1,5 +1,7 @@
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
 from rest_framework.filters import SearchFilter
+from rest_framework.response import Response
 
 from .models import Category, Product
 from .serializers import CategorySerializer, ProductSerializer
@@ -18,7 +20,11 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ["name", "phrase", "description"]
 
     def get_queryset(self):
-        qs = Product.objects.filter(is_active=True).prefetch_related("images")
+        qs = (
+            Product.objects.filter(is_active=True)
+            .select_related("category")
+            .prefetch_related("images")
+        )
 
         category = self.request.query_params.get("category")
         if category:
@@ -28,4 +34,17 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         if featured == "true":
             qs = qs.filter(featured=True)
 
+        exclude = self.request.query_params.get("exclude")
+        if exclude:
+            qs = qs.exclude(slug=exclude)
+
+        limit = self.request.query_params.get("limit")
+        if limit and limit.isdigit():
+            qs = qs[: int(limit)]
+
         return qs
+
+
+@api_view(["GET"])
+def health_check(request):
+    return Response({"status": "ok"})

@@ -5,7 +5,7 @@ import Container from "../components/ui/Container"
 import SectionTitle from "../components/ui/SectionTitle"
 import ProductGrid from "../components/product/ProductGrid"
 import CategoryFilter from "../components/product/CategoryFilter"
-import { fetchProducts, fetchCategories } from "../services/api"
+import { fetchAllProducts, fetchCategories } from "../services/api"
 import SEO from "../components/ui/SEO"
 
 const SORT_OPTIONS = [
@@ -24,10 +24,9 @@ function normalize(str) {
 
 export default function Catalogo() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const initialCategory = searchParams.get("categoria")
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory)
-  const [sortBy, setSortBy] = useState("featured")
-  const [searchQuery, setSearchQuery] = useState("")
+  const selectedCategory = searchParams.get("categoria") || ""
+  const sortBy = searchParams.get("ordem") || "featured"
+  const searchQuery = searchParams.get("busca") || ""
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
@@ -36,7 +35,7 @@ export default function Catalogo() {
   useEffect(() => {
     setLoading(true)
     setError(null)
-    Promise.all([fetchProducts(), fetchCategories()])
+    Promise.all([fetchAllProducts(), fetchCategories()])
       .then(([productsData, categoriesData]) => {
         setProducts(productsData)
         setCategories(categoriesData)
@@ -45,13 +44,30 @@ export default function Catalogo() {
       .finally(() => setLoading(false))
   }, [])
 
+  const updateParams = (updates) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev)
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value) {
+          next.set(key, value)
+        } else {
+          next.delete(key)
+        }
+      })
+      return next
+    })
+  }
+
   const handleCategorySelect = (category) => {
-    setSelectedCategory(category)
-    if (category) {
-      setSearchParams({ categoria: category })
-    } else {
-      setSearchParams({})
-    }
+    updateParams({ categoria: category })
+  }
+
+  const handleSortChange = (value) => {
+    updateParams({ ordem: value === "featured" ? "" : value })
+  }
+
+  const handleSearchChange = (value) => {
+    updateParams({ busca: value })
   }
 
   const filteredProducts = useMemo(() => {
@@ -119,14 +135,14 @@ export default function Catalogo() {
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             placeholder="Buscar canecas por nome, frase ou descrição..."
             className="w-full pl-11 pr-10 py-3 bg-brand-gray border border-gray-200 rounded-xl text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-brand-pink transition-colors"
             aria-label="Buscar canecas"
           />
           {searchQuery && (
             <button
-              onClick={() => setSearchQuery("")}
+              onClick={() => handleSearchChange("")}
               className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
               aria-label="Limpar busca"
             >
@@ -147,7 +163,7 @@ export default function Catalogo() {
             <SlidersHorizontal size={16} className="text-gray-400" />
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) => handleSortChange(e.target.value)}
               className="bg-brand-gray border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:border-brand-pink appearance-none cursor-pointer"
               aria-label="Ordenar por"
             >

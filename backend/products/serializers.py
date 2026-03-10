@@ -26,6 +26,7 @@ class ProductSerializer(serializers.ModelSerializer):
     )
     bestSeller = serializers.BooleanField(source="best_seller")
     colors = serializers.SerializerMethodField()
+    discount = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -43,6 +44,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "bestSeller",
             "colors",
             "material",
+            "discount",
         ]
 
     def get_images(self, obj):
@@ -56,3 +58,10 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_colors(self, obj):
         return [c.strip() for c in obj.colors.split(",") if c.strip()]
+
+    def get_discount(self, obj):
+        if obj.original_price and obj.original_price > obj.price:
+            return round(
+                ((obj.original_price - obj.price) / obj.original_price) * 100
+            )
+        return 0

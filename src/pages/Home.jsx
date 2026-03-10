@@ -44,14 +44,19 @@ const STEPS = [
 export default function Home() {
   const [featured, setFeatured] = useState([])
   const [categories, setCategories] = useState([])
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetchProducts({ featured: "true" })
-      .then(setFeatured)
-      .catch(() => {})
-    fetchCategories()
-      .then(setCategories)
-      .catch(() => {})
+    setError(null)
+    Promise.all([
+      fetchProducts({ featured: "true" }),
+      fetchCategories(),
+    ])
+      .then(([productsData, categoriesData]) => {
+        setFeatured(productsData)
+        setCategories(categoriesData)
+      })
+      .catch((err) => setError(err.message))
   }, [])
 
   return (
@@ -131,6 +136,20 @@ export default function Home() {
           </div>
         </Container>
       </section>
+
+      {error && (
+        <div className="text-center py-12">
+          <Container>
+            <p className="text-red-500 mb-2">Não foi possível carregar os dados.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="text-brand-pink underline cursor-pointer"
+            >
+              Tentar novamente
+            </button>
+          </Container>
+        </div>
+      )}
 
       {/* Categories */}
       <section className="py-20 relative">

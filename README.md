@@ -17,9 +17,10 @@ O site funciona como catálogo digital com carrinho de compras. O cliente monta 
 
 ## Funcionalidades
 
-- **Catalogo** com filtro por 5 categorias (Humor, Café, Românticas, Música, Personalizadas)
-- **Busca por texto** com normalizacao de acentos
-- **Ordenacao** por destaques, preco e ordem alfabetica
+- **Catalogo dinamico** com filtro por categorias, busca e ordenacao (persistidos na URL)
+- **Backend Django** com admin panel para gerenciar produtos, categorias e imagens
+- **API REST** com DRF, paginacao, rate limiting e health check
+- **Busca por texto** com normalizacao de acentos (frontend + backend SearchFilter)
 - **Carrinho de compras** persistido no localStorage (Zustand)
 - **Pedido via WhatsApp** com mensagem pre-formatada (itens + total)
 - **Botao flutuante** de WhatsApp em todas as paginas
@@ -27,15 +28,16 @@ O site funciona como catálogo digital com carrinho de compras. O cliente monta 
 - **Pagina de produto** com badges de desconto, urgencia e produtos relacionados
 - **SEO** com meta tags dinamicas, Open Graph, JSON-LD Product schema, sitemap.xml e robots.txt
 - **PWA** com manifest.json para "Adicionar a tela inicial"
-- **Performance** com code splitting por rota, prefetch no hover e chunk splitting do router
+- **Performance** com code splitting, prefetch, AbortController e queries otimizadas (N+1 fix)
 - **Acessibilidade** com aria-labels, skip link, focus visible e contraste WCAG AA
 - **Design responsivo** mobile-first
 - **ErrorBoundary** global com pagina de erro amigavel
-- **Pagina 404** customizada
-- **Skeleton loading** no catálogo durante carregamento
-- **Transicao suave** entre paginas (opacity CSS)
+- **Tratamento de erros** em todas as paginas com feedback ao usuario
+- **Skeleton loading** no catalogo durante carregamento
 
 ## Tech Stack
+
+### Frontend
 
 | Tecnologia | Versao | Uso |
 | --- | --- | --- |
@@ -46,23 +48,53 @@ O site funciona como catálogo digital com carrinho de compras. O cliente monta 
 | [Zustand](https://zustand.docs.pmnd.rs) | 5.0 | Estado global (carrinho) |
 | [Lucide React](https://lucide.dev) | 0.575 | Icones SVG |
 
+### Backend
+
+| Tecnologia | Versao | Uso |
+| --- | --- | --- |
+| [Django](https://djangoproject.com) | 5.1 | Framework web + admin panel |
+| [Django REST Framework](https://django-rest-framework.org) | 3.15 | API REST |
+| [WhiteNoise](https://whitenoise.readthedocs.io) | 6.8 | Arquivos estaticos em producao |
+| [Gunicorn](https://gunicorn.org) | 23.0 | WSGI server para producao |
+| [Pillow](https://pillow.readthedocs.io) | 11.1 | Upload de imagens |
+
 ## Comecando
 
 ### Pre-requisitos
 
 - [Node.js](https://nodejs.org) 18+
+- [Python](https://python.org) 3.10+
 - npm 9+
 
 ### Instalacao
 
 ```bash
+# Frontend
 git clone https://github.com/seu-usuario/fora-da-caneca.git
 cd fora-da-caneca
 npm install
+
+# Backend
+cd backend
+pip install -r requirements.txt
+cp .env.example .env
+python manage.py migrate
+python manage.py createsuperuser
+```
+
+### Rodando
+
+```bash
+# Terminal 1 - Backend (porta 8000)
+cd backend
+python manage.py runserver
+
+# Terminal 2 - Frontend (porta 5173, proxy /api → 8000)
 npm run dev
 ```
 
 O site estara disponivel em `http://localhost:5173`.
+O admin Django em `http://localhost:8000/admin/`.
 
 ### Scripts
 
@@ -72,10 +104,12 @@ O site estara disponivel em `http://localhost:5173`.
 | `npm run build` | Build de producao (output em `dist/`) |
 | `npm run preview` | Preview local do build |
 | `npm run lint` | Verificacao com ESLint |
+| `python manage.py runserver` | Servidor Django (backend) |
+| `python manage.py migrate` | Aplicar migracoes do banco |
 
 ## Estrutura do Projeto
 
-```
+```text
 src/
 ├── components/
 │   ├── ui/          # Button, Badge, Container, SectionTitle, SEO,
@@ -84,11 +118,20 @@ src/
 │   └── product/     # ProductCard, ProductCardSkeleton, ProductGrid, CategoryFilter
 ├── pages/           # Home, Catalogo, Produto, Carrinho, SobreNos, Contato, NaoEncontrada
 ├── stores/          # cartStore (Zustand + localStorage persist)
+├── services/        # api.js (fetchProducts, fetchAllProducts, fetchCategories, fetchProductBySlug)
 ├── utils/           # formatPrice, whatsapp
-├── constants/       # products (8 produtos), categories (5 categorias), siteConfig
+├── constants/       # siteConfig
 ├── App.jsx          # Rotas com lazy loading + ErrorBoundary
 ├── main.jsx         # Entry point (React 19 createRoot)
 └── index.css        # Tailwind @theme (cores, fontes da marca)
+
+backend/
+├── foradacaneca/    # Settings, URLs, WSGI
+├── products/        # Models, Serializers, Views, Admin, URLs
+├── .env.example     # Template de variaveis de ambiente
+├── requirements.txt # Dependencias Python
+├── Procfile         # Deploy (gunicorn)
+└── manage.py
 ```
 
 ## Paginas
@@ -96,7 +139,7 @@ src/
 | Rota | Pagina | Descricao |
 | --- | --- | --- |
 | `/` | Home | Hero, categorias, destaques, como funciona, CTA WhatsApp |
-| `/catalogo` | Catalogo | Grid de produtos com busca, filtro e ordenacao |
+| `/catalogo` | Catalogo | Grid com busca, filtro e ordenacao (persistidos na URL) |
 | `/produto/:slug` | Produto | Detalhe com quantidade, carrinho, WhatsApp e JSON-LD |
 | `/carrinho` | Carrinho | Itens, resumo e finalizacao via WhatsApp |
 | `/sobre` | Sobre Nos | Historia da marca, valores e numeros |
@@ -107,7 +150,7 @@ src/
 
 A marca usa um gradiente rosa-laranja como assinatura:
 
-```
+```text
 Rosa:       #E91E63   (primaria, CTAs)
 Laranja:    #FF9800   (gradiente, acentos)
 Marrom:     #5D4037   (textos, tematica café)
@@ -136,10 +179,11 @@ Todas as mensagens sao pre-formatadas com o contexto adequado.
 
 Ultimo build limpo, sem warnings:
 
-- **index.js**: 206 KB (66 KB gzip) — bundle principal
+- **index.js**: 210 KB (67 KB gzip) — bundle principal
 - **router.js**: 48 KB (17 KB gzip) — React Router (chunk separado)
-- **CSS**: 42 KB (7 KB gzip) — Tailwind
-- **Pages**: 1-6 KB cada — lazy loaded por rota
+- **api.js**: 4 KB (2 KB gzip) — servico de API (chunk separado)
+- **CSS**: 50 KB (9 KB gzip) — Tailwind
+- **Pages**: 1-10 KB cada — lazy loaded por rota
 
 ## Roadmap
 
@@ -153,9 +197,12 @@ Ultimo build limpo, sem warnings:
 - [x] Pagina 404 customizada
 - [x] ErrorBoundary global
 - [x] Skeleton loading e transicoes entre paginas
+- [x] Backend Django com admin panel e API REST
+- [x] Integracao frontend-backend (paginacao, AbortController, queries otimizadas)
+- [x] Rate limiting, health check, tratamento de erros
 - [ ] Imagens reais dos produtos (substituir placeholders)
 - [ ] Conteudo real (textos, historia da marca)
-- [ ] Backend com Supabase (produtos, pedidos)
+- [ ] Deploy em producao (backend + frontend)
 - [ ] Pagamento online com Mercado Pago
 - [ ] Calculo de frete com Melhor Envio
 

@@ -39,21 +39,31 @@ export default function Produto() {
   const addItem = useCartStore((s) => s.addItem)
 
   useEffect(() => {
+    const controller = new AbortController()
     setLoading(true)
     setNotFound(false)
     setQuantity(1)
     setAddedToCart(false)
 
-    fetchProductBySlug(slug)
+    fetchProductBySlug(slug, { signal: controller.signal })
       .then((data) => {
+        if (controller.signal.aborted) return
         setProduct(data)
-        return fetchProducts({ category: data.category })
+        return fetchProducts({ category: data.category, exclude: slug, limit: 4 }, { signal: controller.signal })
       })
-      .then((allInCategory) => {
-        setRelated(allInCategory.filter((p) => p.slug !== slug).slice(0, 4))
+      .then((relatedProducts) => {
+        if (controller.signal.aborted || !relatedProducts) return
+        setRelated(relatedProducts)
       })
-      .catch(() => setNotFound(true))
-      .finally(() => setLoading(false))
+      .catch((err) => {
+        if (err.name === "AbortError") return
+        setNotFound(true)
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false)
+      })
+
+    return () => controller.abort()
   }, [slug])
 
   if (loading) {

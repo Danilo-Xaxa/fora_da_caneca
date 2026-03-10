@@ -7,6 +7,7 @@ from .models import Category, Product, ProductImage
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
+    max_num = 6
     readonly_fields = ["image_preview"]
     fields = ["image", "image_preview", "alt_text", "order"]
 
