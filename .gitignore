@@ -25,3 +25,10 @@ dist-ssr
 CLAUDE.md
 todo.todo
 /pingpong_loja/
+
+# Backend
+backend/db.sqlite3
+backend/media/
+backend/staticfiles/
+backend/**/__pycache__/
+backend/.env

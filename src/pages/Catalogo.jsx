@@ -5,7 +5,7 @@ import Container from "../components/ui/Container"
 import SectionTitle from "../components/ui/SectionTitle"
 import ProductGrid from "../components/product/ProductGrid"
 import CategoryFilter from "../components/product/CategoryFilter"
-import { fetchProducts } from "../services/api"
+import { fetchProducts, fetchCategories } from "../services/api"
 import SEO from "../components/ui/SEO"
 
 const SORT_OPTIONS = [
@@ -29,14 +29,18 @@ export default function Catalogo() {
   const [sortBy, setSortBy] = useState("featured")
   const [searchQuery, setSearchQuery] = useState("")
   const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     setLoading(true)
     setError(null)
-    fetchProducts()
-      .then((data) => setProducts(data))
+    Promise.all([fetchProducts(), fetchCategories()])
+      .then(([productsData, categoriesData]) => {
+        setProducts(productsData)
+        setCategories(categoriesData)
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
   }, [])
@@ -134,6 +138,7 @@ export default function Catalogo() {
         {/* Filters bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <CategoryFilter
+            categories={categories}
             selected={selectedCategory}
             onSelect={handleCategorySelect}
           />
