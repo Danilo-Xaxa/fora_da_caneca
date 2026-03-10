@@ -10,16 +10,16 @@ import {
   Check,
   Flame,
 } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Container from "../components/ui/Container"
 import Button from "../components/ui/Button"
 import Badge from "../components/ui/Badge"
 import WhatsAppIcon from "../components/ui/WhatsAppIcon"
 import ProductCard from "../components/product/ProductCard"
-import { PRODUCTS } from "../constants/products"
 import { useCartStore } from "../stores/cartStore"
 import { formatPrice } from "../utils/formatPrice"
 import { openWhatsAppProduct } from "../utils/whatsapp"
+import { fetchProductBySlug, fetchProducts } from "../services/api"
 import SEO from "../components/ui/SEO"
 
 const BENEFITS = [
@@ -32,25 +32,66 @@ export default function Produto() {
   const { slug } = useParams()
   const [quantity, setQuantity] = useState(1)
   const [addedToCart, setAddedToCart] = useState(false)
+  const [product, setProduct] = useState(null)
+  const [related, setRelated] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
   const addItem = useCartStore((s) => s.addItem)
 
-  const product = PRODUCTS.find((p) => p.slug === slug)
+  useEffect(() => {
+    setLoading(true)
+    setNotFound(false)
+    setQuantity(1)
+    setAddedToCart(false)
 
-  if (!product) {
+    fetchProductBySlug(slug)
+      .then((data) => {
+        setProduct(data)
+        return fetchProducts({ category: data.category })
+      })
+      .then((allInCategory) => {
+        setRelated(allInCategory.filter((p) => p.slug !== slug).slice(0, 4))
+      })
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false))
+  }, [slug])
+
+  if (loading) {
+    return (
+      <section className="py-8 md:py-16">
+        <Container>
+          <div className="animate-pulse space-y-8">
+            <div className="h-6 w-40 bg-gray-200 rounded" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
+              <div className="aspect-square bg-gray-200 rounded-2xl" />
+              <div className="space-y-4">
+                <div className="h-4 w-20 bg-gray-200 rounded" />
+                <div className="h-8 w-3/4 bg-gray-200 rounded" />
+                <div className="h-4 w-1/2 bg-gray-200 rounded" />
+                <div className="h-10 w-32 bg-gray-200 rounded" />
+                <div className="h-20 w-full bg-gray-200 rounded" />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+    )
+  }
+
+  if (notFound || !product) {
     return <Navigate to="/catalogo" replace />
   }
 
-  const related = PRODUCTS.filter(
-    (p) => p.category === product.category && p.id !== product.id
-  ).slice(0, 4)
+  const price = Number(product.price)
+  const originalPrice = product.originalPrice ? Number(product.originalPrice) : null
 
   const handleAddToCart = () => {
     addItem(
       {
         id: product.id,
         name: product.name,
-        price: product.price,
-        image: product.images[0],
+        price,
+        image: product.images[0] || null,
       },
       quantity
     )
@@ -58,15 +99,19 @@ export default function Produto() {
     setTimeout(() => setAddedToCart(false), 2000)
   }
 
+  const discount = originalPrice
+    ? Math.round(((originalPrice - price) / originalPrice) * 100)
+    : 0
+
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
     description: product.description,
-    image: product.images[0],
+    image: product.images[0] || "",
     offers: {
       "@type": "Offer",
-      price: product.price,
+      price,
       priceCurrency: "BRL",
       availability: "https://schema.org/InStock",
       seller: {
@@ -77,12 +122,6 @@ export default function Produto() {
     material: product.material,
     category: product.category,
   }
-
-  const discount = product.originalPrice
-    ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100
-      )
-    : 0
 
   return (
     <section className="py-8 md:py-16">
@@ -106,13 +145,21 @@ export default function Produto() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
           {/* Image */}
           <div className="relative rounded-2xl overflow-hidden bg-brand-gray border border-gray-200">
-            <div
-              className="aspect-square flex items-center justify-center text-9xl bg-gradient-to-br from-gray-50 to-gray-100"
-              role="img"
-              aria-label={`Foto da ${product.name} - ${product.phrase}`}
-            >
-              ☕
-            </div>
+            {product.images.length > 0 ? (
+              <img
+                src={product.images[0]}
+                alt={`Foto da ${product.name} - ${product.phrase}`}
+                className="aspect-square w-full object-cover"
+              />
+            ) : (
+              <div
+                className="aspect-square flex items-center justify-center text-9xl bg-gradient-to-br from-gray-50 to-gray-100"
+                role="img"
+                aria-label={`Foto da ${product.name} - ${product.phrase}`}
+              >
+                ☕
+              </div>
+            )}
             <div className="absolute top-4 left-4 flex flex-col gap-2">
               {product.bestSeller && (
                 <Badge variant="bestSeller">Mais Vendida</Badge>
@@ -135,14 +182,14 @@ export default function Produto() {
 
             {/* Price */}
             <div className="mb-6">
-              {product.originalPrice && (
+              {originalPrice && (
                 <span className="text-gray-400 line-through text-lg block">
-                  {formatPrice(product.originalPrice)}
+                  {formatPrice(originalPrice)}
                 </span>
               )}
               <div className="flex items-center gap-3">
                 <span className="text-3xl font-bold bg-gradient-to-r from-brand-pink to-brand-orange bg-clip-text text-transparent">
-                  {formatPrice(product.price)}
+                  {formatPrice(price)}
                 </span>
                 {discount > 0 && (
                   <span className="px-2 py-1 bg-brand-red/10 text-brand-red text-sm font-bold rounded">
@@ -151,7 +198,7 @@ export default function Produto() {
                 )}
               </div>
               <p className="text-gray-400 text-sm mt-1">
-                ou 3x de {formatPrice(product.price / 3)} sem juros
+                ou 3x de {formatPrice(price / 3)} sem juros
               </p>
             </div>
 

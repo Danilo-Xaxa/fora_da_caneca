@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import {
   ArrowRight,
@@ -14,21 +15,10 @@ import SectionTitle from "../components/ui/SectionTitle"
 import Button from "../components/ui/Button"
 import WhatsAppIcon from "../components/ui/WhatsAppIcon"
 import ProductCard from "../components/product/ProductCard"
-import { CATEGORIES } from "../constants/categories"
-import { PRODUCTS } from "../constants/products"
 import { SITE_CONFIG } from "../constants/siteConfig"
 import { openWhatsAppGeneral } from "../utils/whatsapp"
+import { fetchProducts, fetchCategories } from "../services/api"
 import SEO from "../components/ui/SEO"
-
-const FEATURED = PRODUCTS.filter((p) => p.featured)
-
-const CATEGORY_EMOJIS = {
-  humor: "😂",
-  cafe: "☕",
-  romanticas: "💕",
-  musica: "🎵",
-  personalizadas: "🎨",
-}
 
 const STEPS = [
   {
@@ -52,6 +42,18 @@ const STEPS = [
 ]
 
 export default function Home() {
+  const [featured, setFeatured] = useState([])
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+    fetchProducts({ featured: "true" })
+      .then(setFeatured)
+      .catch(() => {})
+    fetchCategories()
+      .then(setCategories)
+      .catch(() => {})
+  }, [])
+
   return (
     <>
       <SEO
@@ -140,29 +142,26 @@ export default function Home() {
             subtitle="Encontre a caneca perfeita pra cada ocasião"
           />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {CATEGORIES.map((cat) => {
-              const emoji = CATEGORY_EMOJIS[cat.id] || "☕"
-              return (
-                <Link
-                  key={cat.id}
-                  to={`/catalogo?categoria=${cat.id}`}
-                  className="group relative overflow-hidden rounded-2xl p-6 bg-white border border-gray-100 hover:border-brand-pink/30 transition-all duration-300 text-center card-hover"
-                >
-                  <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">
-                    {emoji}
-                  </span>
-                  <h3 className="font-semibold text-sm text-gray-800 group-hover:text-brand-pink transition-colors">
-                    {cat.name}
-                  </h3>
-                  <p className="text-gray-400 text-xs mt-1 leading-snug">
-                    {cat.description}
-                  </p>
-                  <div
-                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${cat.color} opacity-0 group-hover:opacity-100 transition-opacity`}
-                  />
-                </Link>
-              )
-            })}
+            {categories.map((cat) => (
+              <Link
+                key={cat.slug}
+                to={`/catalogo?categoria=${cat.slug}`}
+                className="group relative overflow-hidden rounded-2xl p-6 bg-white border border-gray-100 hover:border-brand-pink/30 transition-all duration-300 text-center card-hover"
+              >
+                <span className="text-3xl block mb-2 group-hover:scale-110 transition-transform">
+                  {cat.emoji}
+                </span>
+                <h3 className="font-semibold text-sm text-gray-800 group-hover:text-brand-pink transition-colors">
+                  {cat.name}
+                </h3>
+                <p className="text-gray-400 text-xs mt-1 leading-snug">
+                  {cat.description}
+                </p>
+                <div
+                  className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${cat.color} opacity-0 group-hover:opacity-100 transition-opacity`}
+                />
+              </Link>
+            ))}
           </div>
         </Container>
       </section>
@@ -176,7 +175,7 @@ export default function Home() {
             subtitle="As canecas mais queridas pelos nossos clientes"
           />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {FEATURED.map((product) => (
+            {featured.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

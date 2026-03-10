@@ -1,11 +1,11 @@
-import { useState, useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useSearchParams } from "react-router-dom"
 import { SlidersHorizontal, Search, X } from "lucide-react"
 import Container from "../components/ui/Container"
 import SectionTitle from "../components/ui/SectionTitle"
 import ProductGrid from "../components/product/ProductGrid"
 import CategoryFilter from "../components/product/CategoryFilter"
-import { PRODUCTS } from "../constants/products"
+import { fetchProducts } from "../services/api"
 import SEO from "../components/ui/SEO"
 
 const SORT_OPTIONS = [
@@ -28,6 +28,18 @@ export default function Catalogo() {
   const [selectedCategory, setSelectedCategory] = useState(initialCategory)
   const [sortBy, setSortBy] = useState("featured")
   const [searchQuery, setSearchQuery] = useState("")
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    setLoading(true)
+    setError(null)
+    fetchProducts()
+      .then((data) => setProducts(data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false))
+  }, [])
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category)
@@ -39,7 +51,7 @@ export default function Catalogo() {
   }
 
   const filteredProducts = useMemo(() => {
-    let result = [...PRODUCTS]
+    let result = [...products]
 
     if (selectedCategory) {
       result = result.filter((p) => p.category === selectedCategory)
@@ -57,10 +69,10 @@ export default function Catalogo() {
 
     switch (sortBy) {
       case "price-asc":
-        result.sort((a, b) => a.price - b.price)
+        result.sort((a, b) => Number(a.price) - Number(b.price))
         break
       case "price-desc":
-        result.sort((a, b) => b.price - a.price)
+        result.sort((a, b) => Number(b.price) - Number(a.price))
         break
       case "name":
         result.sort((a, b) => a.name.localeCompare(b.name))
@@ -78,7 +90,7 @@ export default function Catalogo() {
     }
 
     return result
-  }, [selectedCategory, sortBy, searchQuery])
+  }, [products, selectedCategory, sortBy, searchQuery])
 
   return (
     <section className="py-12 md:py-20">
@@ -90,7 +102,11 @@ export default function Catalogo() {
       <Container>
         <SectionTitle
           title="Catálogo"
-          subtitle={`${filteredProducts.length} caneca${filteredProducts.length !== 1 ? "s" : ""} encontrada${filteredProducts.length !== 1 ? "s" : ""}`}
+          subtitle={
+            loading
+              ? "Carregando..."
+              : `${filteredProducts.length} caneca${filteredProducts.length !== 1 ? "s" : ""} encontrada${filteredProducts.length !== 1 ? "s" : ""}`
+          }
         />
 
         {/* Search bar */}
@@ -142,7 +158,19 @@ export default function Catalogo() {
           </div>
         </div>
 
-        <ProductGrid products={filteredProducts} />
+        {error && (
+          <div className="text-center py-12 text-red-500">
+            <p>{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 text-brand-pink underline cursor-pointer"
+            >
+              Tentar novamente
+            </button>
+          </div>
+        )}
+
+        {!error && <ProductGrid products={filteredProducts} loading={loading} />}
       </Container>
     </section>
   )
