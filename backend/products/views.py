@@ -1,8 +1,8 @@
+import hashlib
 import logging
 
+from django.core.cache import cache
 from django.db import connection
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from django_filters import rest_framework as django_filters
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
@@ -13,6 +13,9 @@ from .models import Category, Product
 from .serializers import CategorySerializer, ProductSerializer
 
 logger = logging.getLogger(__name__)
+
+CATEGORY_CACHE_TTL = 60 * 5  # 5 minutos
+PRODUCT_CACHE_TTL = 60 * 2  # 2 minutos
 
 
 class ProductFilter(django_filters.FilterSet):
@@ -30,9 +33,14 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     lookup_field = "slug"
 
-    @method_decorator(cache_page(60 * 5))
     def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+        cache_key = "categories_list"
+        cached = cache.get(cache_key)
+        if cached is not None:
+            return Response(cached)
+        response = super().list(request, *args, **kwargs)
+        cache.set(cache_key, response.data, CATEGORY_CACHE_TTL)
+        return response
 
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
@@ -51,17 +59,25 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
             .prefetch_related("images")
         )
 
-    @method_decorator(cache_page(60 * 2))
     def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
+        query_string = request.get_full_path()
+        cache_key = f"products_{hashlib.md5(query_string.encode()).hexdigest()}"
+        cached = cache.get(cache_key)
+        if cached is not None:
+            return Response(cached)
+        response = super().list(request, *args, **kwargs)
+        cache.set(cache_key, response.data, PRODUCT_CACHE_TTL)
+        return response
 
 
 @api_view(["GET"])
 def health_check(request):
     try:
         connection.ensure_connection()
-        db_status = "connected"
+        return Response({"status": "ok", "database": "connected"})
     except Exception:
         logger.error("Health check: database connection failed", exc_info=True)
-        db_status = "disconnected"
-    return Response({"status": "ok", "database": db_status})
+        return Response(
+            {"status": "error", "database": "disconnected"},
+            status=503,
+        )

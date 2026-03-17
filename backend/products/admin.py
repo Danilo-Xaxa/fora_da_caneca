@@ -34,16 +34,17 @@ class ProductAdmin(ModelAdmin):
         "name",
         "category",
         "formatted_price",
+        "status_badge",
         "featured",
         "best_seller",
-        "is_active",
         "image_thumb",
     ]
     list_filter = ["category", "featured", "best_seller", "is_active"]
     search_fields = ["name", "phrase", "description"]
-    list_editable = ["featured", "best_seller", "is_active"]
+    list_editable = ["featured", "best_seller"]
     prepopulated_fields = {"slug": ("name",)}
     inlines = [ProductImageInline]
+    actions = ["make_active", "make_inactive", "make_featured", "remove_featured"]
     fieldsets = (
         (
             "Informações básicas",
@@ -62,12 +63,21 @@ class ProductAdmin(ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("images")
 
+    @admin.display(description="Preço", ordering="price")
     def formatted_price(self, obj):
         return f"R$ {obj.price:.2f}"
 
-    formatted_price.short_description = "Preço"
-    formatted_price.admin_order_field = "price"
+    @admin.display(description="Status")
+    def status_badge(self, obj):
+        if obj.is_active:
+            return format_html(
+                '<span style="color: #16a34a; font-weight: 600;">● Ativo</span>'
+            )
+        return format_html(
+            '<span style="color: #dc2626; font-weight: 600;">● Inativo</span>'
+        )
 
+    @admin.display(description="Foto")
     def image_thumb(self, obj):
         images = obj.images.all()
         first_image = images[0] if images else None
@@ -78,7 +88,25 @@ class ProductAdmin(ModelAdmin):
             )
         return "📷"
 
-    image_thumb.short_description = "Foto"
+    @admin.action(description="✅ Ativar selecionados")
+    def make_active(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f"{updated} produto(s) ativado(s).")
+
+    @admin.action(description="❌ Desativar selecionados")
+    def make_inactive(self, request, queryset):
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f"{updated} produto(s) desativado(s).")
+
+    @admin.action(description="⭐ Marcar como destaque")
+    def make_featured(self, request, queryset):
+        updated = queryset.update(featured=True)
+        self.message_user(request, f"{updated} produto(s) marcado(s) como destaque.")
+
+    @admin.action(description="Remover destaque")
+    def remove_featured(self, request, queryset):
+        updated = queryset.update(featured=False)
+        self.message_user(request, f"{updated} produto(s) removido(s) do destaque.")
 
 
 @admin.register(Category)

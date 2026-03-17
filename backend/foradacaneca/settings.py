@@ -128,10 +128,16 @@ CSRF_TRUSTED_ORIGINS = config(
 )
 
 # --- Cache ---
+# Dev: LocMemCache (padrão). Produção: configurar Redis via .env
+# CACHE_BACKEND=django.core.cache.backends.redis.RedisCache
+# CACHE_LOCATION=redis://localhost:6379/1
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "foradacaneca-cache",
+        "BACKEND": config(
+            "CACHE_BACKEND",
+            default="django.core.cache.backends.locmem.LocMemCache",
+        ),
+        "LOCATION": config("CACHE_LOCATION", default="foradacaneca-cache"),
     }
 }
 
@@ -228,9 +234,12 @@ LOGGING = {
 
 # --- Segurança em produção ---
 if not DEBUG:
-    SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = "DENY"
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000  # 1 ano
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True

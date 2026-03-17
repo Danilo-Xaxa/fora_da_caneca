@@ -6,7 +6,7 @@ from .models import Category, Product, ProductImage
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ["slug", "name", "description", "emoji", "color", "order"]
+        fields = ["id", "slug", "name", "description", "emoji", "color", "order"]
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -17,6 +17,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(slug_field="slug", read_only=True)
+    categoryName = serializers.CharField(source="category.name", read_only=True)
     images = serializers.SerializerMethodField()
     price = serializers.DecimalField(
         max_digits=8,
@@ -45,6 +46,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "price",
             "originalPrice",
             "category",
+            "categoryName",
             "images",
             "featured",
             "bestSeller",

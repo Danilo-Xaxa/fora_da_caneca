@@ -1,6 +1,10 @@
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils.text import slugify
+
+MAX_IMAGES_PER_PRODUCT = 6
+MAX_IMAGE_SIZE_MB = 5
 
 
 class Category(models.Model):
@@ -98,7 +102,16 @@ class ProductImage(models.Model):
         related_name="images",
         verbose_name="Produto",
     )
-    image = models.ImageField("Imagem", upload_to="products/")
+    image = models.ImageField(
+        "Imagem",
+        upload_to="products/",
+        validators=[
+            FileExtensionValidator(
+                allowed_extensions=["jpg", "jpeg", "png", "webp"],
+                message="Formato não suportado. Use: JPG, PNG ou WebP.",
+            ),
+        ],
+    )
     alt_text = models.CharField("Texto alternativo", max_length=200, blank=True)
     order = models.PositiveIntegerField("Ordem", default=0)
 
@@ -109,3 +122,22 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Imagem {self.order} - {self.product.name}"
+
+    def clean(self):
+        super().clean()
+        if self.image and hasattr(self.image, "size"):
+            max_bytes = MAX_IMAGE_SIZE_MB * 1024 * 1024
+            if self.image.size > max_bytes:
+                raise ValidationError(
+                    {"image": f"Imagem deve ter no máximo {MAX_IMAGE_SIZE_MB}MB."}
+                )
+        if self.product_id:
+            existing = (
+                ProductImage.objects.filter(product=self.product)
+                .exclude(pk=self.pk)
+                .count()
+            )
+            if existing >= MAX_IMAGES_PER_PRODUCT:
+                raise ValidationError(
+                    f"Cada produto pode ter no máximo {MAX_IMAGES_PER_PRODUCT} imagens."
+                )

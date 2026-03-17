@@ -48,7 +48,7 @@ export const useCartStore = create(
 
       getTotal: () => {
         return get().items.reduce(
-          (sum, item) => sum + item.price * item.quantity,
+          (sum, item) => sum + Math.round(item.price * item.quantity * 100) / 100,
           0
         )
       },
