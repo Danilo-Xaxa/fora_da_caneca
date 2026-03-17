@@ -3,10 +3,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-admin.site.site_header = "Fora da Caneca - Painel Admin"
-admin.site.site_title = "Fora da Caneca"
-admin.site.index_title = "Gerenciar Loja"
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("products.urls")),

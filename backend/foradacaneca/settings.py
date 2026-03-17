@@ -14,6 +14,7 @@ ALLOWED_HOSTS = config(
 )
 
 INSTALLED_APPS = [
+    "unfold",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -23,6 +24,7 @@ INSTALLED_APPS = [
     # Third-party
     "rest_framework",
     "corsheaders",
+    "django_filters",
     # Local
     "products",
 ]
@@ -113,6 +115,9 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "anon": "100/minute",
     },
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ],
 }
 
 # --- CSRF trusted origins (admin em produção) ---
@@ -121,6 +126,105 @@ CSRF_TRUSTED_ORIGINS = config(
     default="http://localhost:8000,http://127.0.0.1:8000",
     cast=lambda v: [o.strip() for o in v.split(",")],
 )
+
+# --- Cache ---
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "foradacaneca-cache",
+    }
+}
+
+# --- Django Unfold (admin moderno) ---
+UNFOLD = {
+    "SITE_TITLE": "Fora da Caneca",
+    "SITE_HEADER": "Fora da Caneca",
+    "SITE_SYMBOL": "coffee",
+    "COLORS": {
+        "primary": {
+            "50": "#FCE4EC",
+            "100": "#F8BBD0",
+            "200": "#F48FB1",
+            "300": "#F06292",
+            "400": "#EC407A",
+            "500": "#E91E63",
+            "600": "#D81B60",
+            "700": "#C2185B",
+            "800": "#AD1457",
+            "900": "#880E4F",
+            "950": "#560027",
+        },
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "navigation": [
+            {
+                "title": "Loja",
+                "items": [
+                    {
+                        "title": "Produtos",
+                        "icon": "shopping_bag",
+                        "link": "/admin/products/product/",
+                    },
+                    {
+                        "title": "Categorias",
+                        "icon": "category",
+                        "link": "/admin/products/category/",
+                    },
+                ],
+            },
+            {
+                "title": "Configurações",
+                "items": [
+                    {
+                        "title": "Usuários",
+                        "icon": "person",
+                        "link": "/admin/auth/user/",
+                    },
+                    {
+                        "title": "Grupos",
+                        "icon": "group",
+                        "link": "/admin/auth/group/",
+                    },
+                ],
+            },
+        ],
+    },
+}
+
+# --- Logging ---
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}] {levelname} {name}: {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        "products": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
+}
 
 # --- Segurança em produção ---
 if not DEBUG:

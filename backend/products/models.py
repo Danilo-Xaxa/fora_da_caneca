@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 
@@ -44,8 +45,8 @@ class Product(models.Model):
         related_name="products",
         verbose_name="Categoria",
     )
-    featured = models.BooleanField("Destaque", default=False)
-    best_seller = models.BooleanField("Mais vendida", default=False)
+    featured = models.BooleanField("Destaque", default=False, db_index=True)
+    best_seller = models.BooleanField("Mais vendida", default=False, db_index=True)
     colors = models.CharField(
         "Cores disponíveis",
         max_length=300,
@@ -53,7 +54,7 @@ class Product(models.Model):
         help_text="Separe com vírgula: Branca, Preta, Rosa",
     )
     material = models.CharField("Material", max_length=100, default="Cerâmica 325ml")
-    is_active = models.BooleanField("Ativo", default=True)
+    is_active = models.BooleanField("Ativo", default=True, db_index=True)
     created_at = models.DateTimeField("Criado em", auto_now_add=True)
     updated_at = models.DateTimeField("Atualizado em", auto_now=True)
 
@@ -64,6 +65,25 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        if self.price is not None and self.price <= 0:
+            raise ValidationError({"price": "O preço deve ser maior que zero."})
+
+        if self.original_price is not None and self.price is not None:
+            if self.original_price <= self.price:
+                raise ValidationError(
+                    {
+                        "original_price": "O preço original deve ser maior que o preço atual (para haver desconto)."
+                    }
+                )
+
+        if self.name and not self.slug:
+            generated = slugify(self.name)
+            if not generated:
+                raise ValidationError(
+                    {"name": "O nome precisa conter pelo menos uma letra ou número."}
+                )
 
     def save(self, *args, **kwargs):
         if not self.slug:

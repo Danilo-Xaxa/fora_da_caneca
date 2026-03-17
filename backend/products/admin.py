@@ -1,10 +1,16 @@
 from django.contrib import admin
+from django.db.models import Count
 from django.utils.html import format_html
 
 from .models import Category, Product, ProductImage
 
+try:
+    from unfold.admin import ModelAdmin, TabularInline
+except ImportError:
+    from django.contrib.admin import ModelAdmin, TabularInline
 
-class ProductImageInline(admin.TabularInline):
+
+class ProductImageInline(TabularInline):
     model = ProductImage
     extra = 1
     max_num = 6
@@ -23,7 +29,7 @@ class ProductImageInline(admin.TabularInline):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(ModelAdmin):
     list_display = [
         "name",
         "category",
@@ -53,6 +59,9 @@ class ProductAdmin(admin.ModelAdmin):
         ),
     )
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related("images")
+
     def formatted_price(self, obj):
         return f"R$ {obj.price:.2f}"
 
@@ -60,7 +69,8 @@ class ProductAdmin(admin.ModelAdmin):
     formatted_price.admin_order_field = "price"
 
     def image_thumb(self, obj):
-        first_image = obj.images.first()
+        images = obj.images.all()
+        first_image = images[0] if images else None
         if first_image and first_image.image:
             return format_html(
                 '<img src="{}" style="max-height: 50px; border-radius: 6px;" />',
@@ -72,12 +82,16 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(ModelAdmin):
     list_display = ["name", "slug", "emoji", "order", "product_count"]
     list_editable = ["order", "emoji"]
     prepopulated_fields = {"slug": ("name",)}
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(_product_count=Count("products"))
+
     def product_count(self, obj):
-        return obj.products.count()
+        return obj._product_count
 
     product_count.short_description = "Produtos"
+    product_count.admin_order_field = "_product_count"

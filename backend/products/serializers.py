@@ -18,11 +18,17 @@ class ProductImageSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(slug_field="slug", read_only=True)
     images = serializers.SerializerMethodField()
+    price = serializers.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        coerce_to_string=False,
+    )
     originalPrice = serializers.DecimalField(
         source="original_price",
         max_digits=8,
         decimal_places=2,
         allow_null=True,
+        coerce_to_string=False,
     )
     bestSeller = serializers.BooleanField(source="best_seller")
     colors = serializers.SerializerMethodField()
@@ -50,8 +56,6 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_images(self, obj):
         request = self.context.get("request")
         product_images = obj.images.all()
-        if not product_images.exists():
-            return []
         if request is None:
             return [img.image.url for img in product_images]
         return [request.build_absolute_uri(img.image.url) for img in product_images]

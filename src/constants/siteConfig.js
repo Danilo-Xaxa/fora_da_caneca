@@ -18,10 +18,13 @@ export const SITE_CONFIG = {
 export const WHATSAPP_MESSAGES = {
   order: (items, total) => {
     const itemList = items
-      .map((item) => `- ${item.name} (x${item.quantity})`)
+      .map(
+        (item) =>
+          `- ${item.name} (x${item.quantity}) — R$ ${(item.price * item.quantity).toFixed(2).replace(".", ",")}`
+      )
       .join("\n")
     return encodeURIComponent(
-      `Olá! Vim pelo site Fora da Caneca e gostaria de fazer um pedido:\n\n${itemList}\n\nTotal: R$ ${total}\n\nAguardo retorno!`
+      `Olá! Vim pelo site Fora da Caneca e gostaria de fazer um pedido:\n\n${itemList}\n\nTotal: ${total}\n\nAguardo retorno!`
     )
   },
   product: (productName) =>
