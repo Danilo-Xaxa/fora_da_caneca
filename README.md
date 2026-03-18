@@ -18,14 +18,20 @@ O site funciona como catálogo digital com carrinho de compras. O cliente monta 
 ## Funcionalidades
 
 - **Catalogo dinamico** com filtro por categorias, busca e ordenacao (persistidos na URL)
-- **Backend Django** com admin panel para gerenciar produtos, categorias e imagens
-- **API REST** com DRF, paginacao, rate limiting e health check
+- **Backend Django** com admin moderno (django-unfold, tema pink) para gerenciar produtos e imagens
+- **Admin com acoes em lote**: ativar/desativar produtos, marcar como destaque; badges de status
+- **Cache inteligente** com TTL de 2-5 minutos e invalidacao automatica via signals
+- **API REST** com DRF, paginacao, rate limiting (100 req/min) e health check
 - **Busca por texto** com normalizacao de acentos (frontend + backend SearchFilter)
 - **Carrinho de compras** persistido no localStorage (Zustand)
+- **Toast de notificacao** ao adicionar produto ao carrinho
 - **Pedido via WhatsApp** com mensagem pre-formatada (itens + total)
 - **Botao flutuante** de WhatsApp em todas as paginas
 - **Cart drawer** lateral para visualizacao rapida
+- **Announcement bar** animada no header
 - **Pagina de produto** com badges de desconto, urgencia e produtos relacionados
+- **Validacao de imagens**: max 5MB, max 6 por produto, extensoes jpg/png/webp
+- **Seguranca em producao**: HSTS (1 ano), cookies seguros, XSS filter, CSRF, CORS
 - **SEO** com meta tags dinamicas, Open Graph, JSON-LD Product schema, sitemap.xml e robots.txt
 - **PWA** com manifest.json para "Adicionar a tela inicial"
 - **Performance** com code splitting, prefetch, AbortController e queries otimizadas (N+1 fix)
@@ -54,9 +60,13 @@ O site funciona como catálogo digital com carrinho de compras. O cliente monta 
 | --- | --- | --- |
 | [Django](https://djangoproject.com) | 5.1 | Framework web + admin panel |
 | [Django REST Framework](https://django-rest-framework.org) | 3.15 | API REST |
+| [django-unfold](https://unfoldadmin.com) | 0.44.0 | Admin moderno com tema personalizado |
+| [django-filter](https://django-filter.readthedocs.io) | 24.3 | Filtros avancados na API |
+| [django-cors-headers](https://github.com/adamchainz/django-cors-headers) | 4.6 | CORS para o frontend |
 | [WhiteNoise](https://whitenoise.readthedocs.io) | 6.8 | Arquivos estaticos em producao |
 | [Gunicorn](https://gunicorn.org) | 23.0 | WSGI server para producao |
-| [Pillow](https://pillow.readthedocs.io) | 11.1 | Upload de imagens |
+| [Pillow](https://pillow.readthedocs.io) | 11.1 | Upload e validacao de imagens |
+| [python-decouple](https://github.com/HBNetwork/python-decouple) | 3.8 | Variaveis de ambiente via .env |
 
 ## Comecando
 
@@ -106,6 +116,8 @@ O admin Django em `http://localhost:8000/admin/`.
 | `npm run lint` | Verificacao com ESLint |
 | `python manage.py runserver` | Servidor Django (backend) |
 | `python manage.py migrate` | Aplicar migracoes do banco |
+| `python manage.py seed_products` | Popular banco com produtos e categorias de exemplo |
+| `python manage.py createsuperuser` | Criar usuario admin |
 
 ## Estrutura do Projeto
 
@@ -114,7 +126,8 @@ src/
 ├── components/
 │   ├── ui/          # Button, Badge, Container, SectionTitle, SEO,
 │   │                # ErrorBoundary, PrefetchLink, WhatsAppIcon
-│   ├── layout/      # Header, Footer, Layout, WhatsAppFloat, CartDrawer
+│   ├── layout/      # Header (com announcement bar), Footer, Layout,
+│   │                # WhatsAppFloat, CartDrawer, CartToast
 │   └── product/     # ProductCard, ProductCardSkeleton, ProductGrid, CategoryFilter
 ├── pages/           # Home, Catalogo, Produto, Carrinho, SobreNos, Contato, NaoEncontrada
 ├── stores/          # cartStore (Zustand + localStorage persist)
@@ -127,10 +140,13 @@ src/
 
 backend/
 ├── foradacaneca/    # Settings, URLs, WSGI
-├── products/        # Models, Serializers, Views, Admin, URLs
+├── products/        # Models, Serializers, Views, Admin, URLs, signals.py
+│   └── management/
+│       └── commands/
+│           └── seed_products.py   # Popular banco com dados de exemplo
 ├── .env.example     # Template de variaveis de ambiente
 ├── requirements.txt # Dependencias Python
-├── Procfile         # Deploy (gunicorn)
+├── Procfile         # Deploy (gunicorn + migrate + collectstatic)
 └── manage.py
 ```
 
